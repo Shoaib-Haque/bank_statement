@@ -7,4 +7,5 @@
     <li>Create frontend<br>
         </t>npx create-react-app frontend
     </li>
+    <li>Added migration files</li>
 </ol>

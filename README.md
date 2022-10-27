@@ -17,7 +17,7 @@
 </ol>
 
 <h1>clone</h1>
-<h1>backend</h1>
+<h1>cloning</h1>
 <ol type="1">
     <li><strong>clone repository</strong><br>git clone https://github.com/Shoaib2018/bank_statement.git</li>
     <li><strong>change git local name and email if necessary</strong><br>
@@ -26,6 +26,10 @@
             <li>git config user.email "email"</li>
         </ul>
     </li>
+</ol>
+
+<h1>backend</h1>
+<ol type="1">
     <li><strong>change directory</strong><br>cd backend</li>
     <li><strong>install composer</strong><br>composer install</li>
     <li><strong>generate app key</strong><br>php artisan key:generate</li>

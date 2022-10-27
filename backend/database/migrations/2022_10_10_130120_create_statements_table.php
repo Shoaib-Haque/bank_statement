@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('statements', function (Blueprint $table) {
             $table->increments('id');
             $table->string('bank_id');
-            $table->foreign('bank_id')->references('bank_id')->on('bank_accounts');
+            $table->foreign('bank_id')->references('bank_id')->on('accounts');
             $table->integer('particulars_id')->unsigned();
             $table->foreign('particulars_id')->references('id')->on('particulars');
             $table->double('amount', 8);

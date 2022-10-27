@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('bank_accounts', function (Blueprint $table) {
+        Schema::create('accounts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('bank_id', 30)->unique();
             $table->string('bank_name', 100);
             $table->char('password', 60);
         });
 
-        \DB::statement('ALTER TABLE bank_accounts AUTO_INCREMENT = 1;');
+        \DB::statement('ALTER TABLE accounts AUTO_INCREMENT = 1;');
     }
 
     /**
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bank_accounts');
+        Schema::dropIfExists('accounts');
     }
 };

@@ -7,6 +7,25 @@
     <li><strong>run the server</strong><br>php artisan serve</li>
     <li><strong>create migration files</strong></li>
     <li><strong>migrate tables</strong><br>php artisan migrate</li>
+    <li><strong>install jwt</strong><br>composer require -w tymon/jwt-auth --ignore-platform-reqs</li>
+    <li><strong>go to config/app.php</strong><br>
+    <ul>
+        <li>include the laravel service provider inside the providers array.</li>
+        <li>include the JWTAuth and JWTFactory facades inside the aliases array.</li><br>
+        <li>'providers' => [
+                    ....
+                    ....
+                    Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+                ],
+                'aliases' => [
+                    ....
+                    'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+                    'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+                    ....
+                ],
+        </li>
+    </ul>
+</li>
 </ol>
 
 <h1>frontend</h1>

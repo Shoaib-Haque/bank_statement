@@ -3,15 +3,34 @@
 <h1>backend</h1>
 <ol type="1">
     <li><strong>install laravel</strong><br>composer create-project laravel/laravel backend</li>
-    <li><strong>change directory</strong><br> cd backend</li>
-    <li><strong>run the server</strong><br> php artisan serve</li>
+    <li><strong>change directory</strong><br>cd backend</li>
+    <li><strong>run the server</strong><br>php artisan serve</li>
     <li><strong>create migration files</strong></li>
     <li><strong>migrate tables</strong><br>php artisan migrate</li>
 </ol>
 
 <h1>frontend</h1>
 <ol type="1">
-    <li><strong>install react</strong><br> npx create-react-app frontend</li>
-    <li><strong>change directory</strong><br> cd frontend</li>
-    <li><strong>run the frontend</strong><br> npm run</li>
+    <li><strong>install react</strong><br>npx create-react-app frontend</li>
+    <li><strong>change directory</strong><br>cd frontend</li>
+    <li><strong>run the frontend</strong><br>npm run</li>
+</ol>
+
+<h1>clone</h1>
+<h1>backend</h1>
+<ol type="1">
+    <li><strong>clone repository</strong><br>git clone https://github.com/Shoaib2018/bank_statement.git</li>
+    <li><strong>change git local name and email if necessary</strong><br>
+        <ul type="point">
+            <li>git config user.name "name"</li>
+            <li>git config user.email "email"</li>
+        </ul>
+    </li>
+    <li><strong>change directory</strong><br>cd backend</li>
+    <li><strong>install composer</strong><br>composer install</li>
+    <li><strong>generate app key</strong><br>php artisan key:generate</li>
+    <li><strong>copy .env.example and rename it to .env</strong><br>cp .env.example .env</li>
+    <li><strong>change database credentials in .env</strong></li>
+    <li><strong>migrate tables</strong><br>php artisan migrate</li>
+    <li><strong>run the server</strong><br>php artisan serve</li>
 </ol>

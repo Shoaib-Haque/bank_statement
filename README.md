@@ -21,7 +21,7 @@
 <ol type="1">
     <li><strong>clone repository</strong><br>git clone https://github.com/Shoaib2018/bank_statement.git</li>
     <li><strong>change git local name and email if necessary</strong><br>
-        <ul type="point">
+        <ul style="list-style-type:disc">
             <li>git config user.name "name"</li>
             <li>git config user.email "email"</li>
         </ul>

@@ -15,16 +15,16 @@
     <ul>
         <li>include the laravel service provider inside the providers array.</li>
         <li>include the JWTAuth and JWTFactory facades inside the aliases array.</li><br>
-        <li>'providers' => [
-                    ....
-                    ....
-                    Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        <li>'providers' => [<br>
+                    ....<br>
+                    ....<br>
+                    Tymon\JWTAuth\Providers\LaravelServiceProvider::class,<br>
                 ],<br>
-                'aliases' => [
-                    ....
-                    'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
-                    'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
-                    ....
+                'aliases' => [<br>
+                    ....<br>
+                    'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,<br>
+                    'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,<br>
+                    ....<br>
                 ],
         </li>
     </ul>

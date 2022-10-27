@@ -35,6 +35,36 @@
     <li><strong>publish the jwt package’s configuration</strong><br>
         php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"</li>
     <li><strong>generate jwt secret key</strong><br>php artisan jwt:secret</li>
+    <li><strong>Configure Auth guard: goto config/auth.php</strong><br></li>
+    <ul>
+        <li>
+        'defaults' => [<br>
+            'guard' => 'api',<br>
+            'passwords' => 'accounts',<br>
+        ],<br><br>
+        'guards' => [<br>
+            'web' => [<br>
+                'driver' => 'session',<br>
+                'provider' => 'users',<br>
+            ],<br>
+            'api' => [<br>
+                'driver' => 'jwt',<br>
+                'provider' => 'accounts',<br>
+                'hash' => false,<br>
+            ]<br>
+        ],<br><br>
+        'providers' => [<br>
+            'users' => [<br>
+                'driver' => 'eloquent',<br>
+                'model' => App\Models\User::class,<br>
+            ],<br>
+            'accounts' => [<br>
+                'driver' => 'eloquent',<br>
+                'model' => App\Models\Accounts::class,<br>
+            ]<br>
+        ]<br>
+        </li>
+    </ul>
 </li>
 </ol>
 

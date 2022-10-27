@@ -32,9 +32,9 @@
 <ol type="1">
     <li><strong>change directory</strong><br>cd backend</li>
     <li><strong>install composer</strong><br>composer install</li>
-    <li><strong>generate app key</strong><br>php artisan key:generate</li>
     <li><strong>copy .env.example and rename it to .env</strong><br>cp .env.example .env</li>
     <li><strong>change database credentials in .env</strong></li>
+    <li><strong>generate app key</strong><br>php artisan key:generate</li>
     <li><strong>migrate tables</strong><br>php artisan migrate</li>
     <li><strong>run the server</strong><br>php artisan serve</li>
 </ol>
@@ -43,5 +43,5 @@
 <ol type="1">
     <li><strong>change directory</strong><br>cd frontend</li>
     <li><strong>install react</strong><br>npm install</li>
-    <li><strong>run the frontend</strong><br>npm run</li>
+    <li><strong>run the frontend</strong><br>npm start</li>
 </ol>

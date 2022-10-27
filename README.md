@@ -27,6 +27,8 @@
                     ....<br>
                 ],
         </li>
+        <li><strong>generate jwt secret key</strong><br>
+        php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"</li>
     </ul>
 </li>
 </ol>

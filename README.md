@@ -7,7 +7,9 @@
     <li><strong>run the server</strong><br>php artisan serve</li>
     <li><strong>create migration files</strong></li>
     <li><strong>migrate tables</strong><br>php artisan migrate</li>
-    <li><h3>authentication</h3></li>
+</ol>
+<h3>authentication</h3>
+<ol type="1">
     <li><strong>install jwt</strong><br>composer require -w tymon/jwt-auth --ignore-platform-reqs</li>
     <li><strong>go to config/app.php</strong><br>
     <ul>

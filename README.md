@@ -10,6 +10,9 @@
 </ol>
 <h3>authentication</h3>
 <ol type="1">
+    <li><strong>authentication using jwt</strong><br>
+        https://www.positronx.io/laravel-jwt-authentication-tutorial-user-login-signup-api/
+    </li>
     <li><strong>install jwt</strong><br>composer require -w tymon/jwt-auth --ignore-platform-reqs</li>
     <li><strong>go to config/app.php</strong><br>
     <ul>

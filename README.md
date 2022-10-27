@@ -34,3 +34,10 @@
     <li><strong>migrate tables</strong><br>php artisan migrate</li>
     <li><strong>run the server</strong><br>php artisan serve</li>
 </ol>
+
+<h1>frontend</h1>
+<ol type="1">
+    <li><strong>change directory</strong><br>cd frontend</li>
+    <li><strong>install react</strong><br>npm install</li>
+    <li><strong>run the frontend</strong><br>npm run</li>
+</ol>

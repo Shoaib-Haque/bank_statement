@@ -13,19 +13,20 @@
     <li><strong>install jwt</strong><br>composer require -w tymon/jwt-auth --ignore-platform-reqs</li>
     <li><strong>go to config/app.php</strong><br>
     <ul>
-        <li>include the laravel service provider inside the providers array.</li>
-        <li>include the JWTAuth and JWTFactory facades inside the aliases array.</li>
-        <li>'providers' => [<br>
-                    ....<br>
-                    ....<br>
-                    Tymon\JWTAuth\Providers\LaravelServiceProvider::class,<br>
-                ],<br>
-                'aliases' => [<br>
-                    ....<br>
-                    'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,<br>
-                    'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,<br>
-                    ....<br>
-                ],
+        <li>include the laravel service provider inside the providers array.<br>
+            'providers' => [<br>
+                ....<br>
+                ....<br>
+                Tymon\JWTAuth\Providers\LaravelServiceProvider::class,<br>
+            ],<br>
+        </li>
+        <li>include the JWTAuth and JWTFactory facades inside the aliases array.<br>
+            'aliases' => [<br>
+                ....<br>
+                'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,<br>
+                'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,<br>
+                ....<br>
+            ],
         </li>
     </ul>
     <li><strong>publish the jwt package’s configuration</strong><br>

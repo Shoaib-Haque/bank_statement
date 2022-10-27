@@ -14,7 +14,7 @@
     <li><strong>go to config/app.php</strong><br>
     <ul>
         <li>include the laravel service provider inside the providers array.</li>
-        <li>include the JWTAuth and JWTFactory facades inside the aliases array.</li><br>
+        <li>include the JWTAuth and JWTFactory facades inside the aliases array.</li>
         <li>'providers' => [<br>
                     ....<br>
                     ....<br>

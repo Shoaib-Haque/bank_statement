@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Routes, Route, Link, Navigate } from "react-ro
 
 import Login from "./components/login.component";
 import Register from "./components/register.component";
+import Statement from "./components/statement.component";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <Route path="/" element={<Navigate replace to="/login" />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/statements" element={<Statement />} />
             </Routes>
           </Col>
         </Row>

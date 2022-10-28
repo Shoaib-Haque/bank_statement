@@ -7,6 +7,7 @@ import Col from "react-bootstrap/Col";
 import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
+import Login from "./components/login.component";
 import Register from "./components/register.component";
 
 function App() {
@@ -14,6 +15,9 @@ function App() {
     <Router>
       <Navbar bg="primary">
         <Container>
+          <Link to={"/login"} className="navbar-brand text-white">
+            Login
+          </Link>
           <Link to={"/register"} className="navbar-brand text-white">
             Register
           </Link>
@@ -23,6 +27,7 @@ function App() {
         <Row>
           <Col md={12}>
             <Routes>
+              <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
             </Routes>
           </Col>

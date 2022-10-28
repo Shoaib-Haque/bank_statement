@@ -26,7 +26,7 @@ export default function Login() {
       .then(({ data }) => {
         if (data.access_token !== "undefined" && data.access_token !== "") {
           localStorage.setItem("authToken", data.access_token);
-          //navigate("/statements");
+          navigate("/statements");
         }
       })
       .catch(({ response }) => {

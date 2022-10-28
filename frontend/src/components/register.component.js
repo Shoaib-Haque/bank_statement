@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -108,15 +108,27 @@ export default function Register() {
                       </Form.Group>
                     </Col>
                   </Row>
-                  <Button
-                    variant="primary"
-                    className="mt-2"
-                    size="lg"
-                    block="block"
-                    type="submit"
-                  >
-                    Login
-                  </Button>
+                  <Row>
+                    <Col sm={10}>
+                      <Button
+                        variant="primary"
+                        className="mt-2"
+                        size="lg"
+                        block="block"
+                        type="submit"
+                      >
+                        Login
+                      </Button>
+                    </Col>
+                    <Col>
+                      <Link
+                        style={{ textDecoration: 'none' }}
+                        to="/login"
+                      >
+                        Login
+                      </Link>
+                    </Col>
+                  </Row>
                 </Form>
               </div>
             </div>

@@ -73,6 +73,8 @@
     <li><strong>install react</strong><br>npx create-react-app frontend</li>
     <li><strong>change directory</strong><br>cd frontend</li>
     <li><strong>run the frontend</strong><br>npm run</li>
+    <li><strong>install axios</strong><br>npm install axios react-bootstrap bootstrap</li>
+    <li><strong>install react-router-dom</strong><br>npm install react-router-dom sweetalert2 --save</li>
 </ol>
 
 <h1>clone</h1>

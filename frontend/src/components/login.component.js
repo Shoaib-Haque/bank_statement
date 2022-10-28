@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -24,7 +24,10 @@ export default function Login() {
     await axios
       .post(`http://127.0.0.1:8000/api/auth/login`, formData)
       .then(({ data }) => {
-        navigate("/statements");
+        if (data.access_token !== "undefined" && data.access_token !== "") {
+          localStorage.setItem("authToken", data.access_token);
+          //navigate("/statements");
+        }
       })
       .catch(({ response }) => {
         console.log(response);
@@ -103,15 +106,27 @@ export default function Login() {
                         </div>
                       </div>
                     </div> : ''}
-                  <Button
-                    variant="primary"
-                    className="mt-2"
-                    size="lg"
-                    block="block"
-                    type="submit"
-                  >
-                    Login
-                  </Button>
+                  <Row>
+                    <Col>
+                      <Button
+                        variant="primary"
+                        className="mt-2"
+                        size="lg"
+                        block="block"
+                        type="submit"
+                      >
+                        Login
+                      </Button>
+                    </Col>
+                    <Col>
+                      <Link
+                        style={{ textDecoration: 'none' }}
+                        to="/register"
+                      >
+                        Register
+                      </Link>
+                    </Col>
+                  </Row>
                 </Form>
               </div>
             </div>

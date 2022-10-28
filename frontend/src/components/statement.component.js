@@ -1,18 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import axios from "axios";
-import Swal from "sweetalert2";
-import { useNavigate, Link } from "react-router-dom";
 
 export default function Login() {
-  const navigate = useNavigate();
   const [bank_id, setBankId] = useState("");
   const [bank_name, setBankName] = useState("");
-  const [authError, setAuthError] = useState("");
-  const [validationError, setValidationError] = useState({});
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("authToken");
 

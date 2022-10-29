@@ -38,18 +38,19 @@
     <li><strong>Configure Auth guard: goto config/auth.php</strong><br></li>
     <ul>
         <li>
-        'defaults' => [<br>
-            'guard' => 'api',<br>
-            'passwords' => 'accounts',<br>
-        ],<br><br>
         'guards' => [<br>
             'web' => [<br>
                 'driver' => 'session',<br>
                 'provider' => 'users',<br>
             ],<br>
-            'api' => [<br>
+            'account' => [<br>
                 'driver' => 'jwt',<br>
                 'provider' => 'accounts',<br>
+                'hash' => false,<br>
+            ],<br>
+            'admin' => [<br>
+                'driver' => 'jwt',<br>
+                'provider' => 'admin',<br>
                 'hash' => false,<br>
             ]<br>
         ],<br><br>
@@ -61,8 +62,30 @@
             'accounts' => [<br>
                 'driver' => 'eloquent',<br>
                 'model' => App\Models\Accounts::class,<br>
-            ]<br>
-        ]<br>
+            ],<br>
+            'admin' => [<br>
+                'driver' => 'eloquent',<br>
+                'model' => App\Models\Admin::class,<br>
+            ],<br>
+            // 'users' => [<br>
+            //     'driver' => 'database',<br>
+            //     'table' => 'users',<br>
+            // ],<br>
+        ],
+        </li>
+    </ul>
+    <li><strong>Configure Auth guard: goto http/Kernel.php</strong><br></li>
+    <ul>
+        <li>
+            protected $middlewareGroups = [<br>
+                -------------------------------<br>
+                'account' => [<br>
+                    \Illuminate\Routing\Middleware\SubstituteBindings::class,<br>
+                ],<br>
+                'admin' => [<br>
+                    \Illuminate\Routing\Middleware\SubstituteBindings::class,<br>
+                ],<br>
+            ];
         </li>
     </ul>
 </li>

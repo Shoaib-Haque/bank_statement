@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('super_admin', function (Blueprint $table) {
             $table->increments('id');
             $table->string('username', 5);
-            $table->char('password', 8);
+            $table->char('password', 60);
         });
 
         \DB::statement('ALTER TABLE super_admin AUTO_INCREMENT = 1;');

@@ -96,6 +96,8 @@
     <li><strong>copy .env.example and rename it to .env</strong><br>cp .env.example .env</li>
     <li><strong>change database credentials in .env</strong></li>
     <li><strong>generate app key</strong><br>php artisan key:generate</li>
+    <li><strong>install jwt</strong><br>composer require -w tymon/jwt-auth --ignore-platform-reqs</li>
+    <li><strong>generate jwt secret key</strong><br>php artisan jwt:secret</li>
     <li><strong>migrate tables</strong><br>php artisan migrate</li>
     <li><strong>run the server</strong><br>php artisan serve</li>
 </ol>

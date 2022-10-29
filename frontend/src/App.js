@@ -5,9 +5,9 @@ import Col from "react-bootstrap/Col";
 import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
-import Login from "./components/login.component";
-import Register from "./components/register.component";
-import Statement from "./components/statement.component";
+import Login from "./components/Auth/Login.component";
+import Register from "./components/Auth/Register.component";
+import Statements from "./components/Statement/Index.component";
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
               <Route path="/" element={<Navigate replace to="/login" />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/statements" element={<Statement />} />
+              <Route path="/statements" element={<Statements />} />
             </Routes>
           </Col>
         </Row>

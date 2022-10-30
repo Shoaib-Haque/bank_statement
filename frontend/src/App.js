@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Login from "./components/Auth/Login.component";
 import Register from "./components/Auth/Register.component";
 import Statements from "./components/Statement/Index.component";
+import Particulars from "./components/Particulars/Index.component";
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/statements" element={<Statements />} />
+
+              <Route path="/particulars" element={<Particulars />} />
             </Routes>
           </Col>
         </Row>

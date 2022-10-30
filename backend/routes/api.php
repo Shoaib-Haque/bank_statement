@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountAuthController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ParticularController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,8 +33,8 @@ Route::group(['middleware' => 'account','prefix' => 'account'],
 Route::group(['middleware' => 'admin', 'prefix' => 'admin'],
     function ($router) {
         Route::post('/login', [AdminAuthController::class, 'login']);
-
         Route::post('/logout', [AdminAuthController::class, 'logout']);
+        Route::get('/particulars', [ParticularController::class, 'index']);
     }
 );
 

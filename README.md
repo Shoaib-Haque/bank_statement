@@ -35,6 +35,25 @@
     <li><strong>publish the jwt package’s configuration</strong><br>
         php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"</li>
     <li><strong>generate jwt secret key</strong><br>php artisan jwt:secret</li>
+    <li><strong>create a middleware for API</strong></li>
+    <ul>
+        <li>php artisan make:middleware Api</li>
+        <li>copy class content from vendor\laravel\framework\src\Illuminate\Routing\Middleware\SubstituteBindings.php and paste inside Api.php</li>
+    </ul>
+    <li><strong>configure middleware: goto http/Kernel.php</strong><br></li>
+    <ul>
+        <li>
+            protected $middlewareGroups = [<br>
+                -------------------------------<br>
+                'account' => [<br>
+                    \App\Http\Middleware\Api::class,<br>
+                ],<br>
+                'admin' => [<br>
+                    \App\Http\Middleware\Api::class,<br>
+                ],<br>
+            ];
+        </li>
+    </ul>
     <li><strong>Configure Auth guard: goto config/auth.php</strong><br></li>
     <ul>
         <li>
@@ -72,20 +91,6 @@
             //     'table' => 'users',<br>
             // ],<br>
         ],
-        </li>
-    </ul>
-    <li><strong>Configure Auth guard: goto http/Kernel.php</strong><br></li>
-    <ul>
-        <li>
-            protected $middlewareGroups = [<br>
-                -------------------------------<br>
-                'account' => [<br>
-                    \Illuminate\Routing\Middleware\SubstituteBindings::class,<br>
-                ],<br>
-                'admin' => [<br>
-                    \Illuminate\Routing\Middleware\SubstituteBindings::class,<br>
-                ],<br>
-            ];
         </li>
     </ul>
 </li>

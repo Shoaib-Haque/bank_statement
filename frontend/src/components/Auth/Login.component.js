@@ -22,11 +22,30 @@ export default function Login() {
     formData.append("bank_id", bank_id);
     formData.append("password", password);
     await axios
-      .post(`http://127.0.0.1:8000/api/auth/login`, formData)
+      .post(`http://127.0.0.1:8000/api/account/login`, formData)
       .then(({ data }) => {
         if (data.access_token !== "undefined" && data.access_token !== "") {
           localStorage.setItem("authToken", data.access_token);
           navigate("/statements");
+        }
+      })
+      .catch(({ response }) => {
+        adminLogin();
+      });
+  };
+
+  const adminLogin = async () => {
+    setAuthError("");
+    setValidationError({});
+    const formData = new FormData();
+    formData.append("username", bank_id);
+    formData.append("password", password);
+    await axios
+      .post(`http://127.0.0.1:8000/api/admin/login`, formData)
+      .then(({ data }) => {
+        if (data.access_token !== "undefined" && data.access_token !== "") {
+          localStorage.setItem("authToken", data.access_token);
+          navigate("/register");
         }
       })
       .catch(({ response }) => {
@@ -106,27 +125,15 @@ export default function Login() {
                         </div>
                       </div>
                     </div> : ''}
-                  <Row>
-                    <Col>
-                      <Button
-                        variant="primary"
-                        className="mt-2"
-                        size="lg"
-                        block="block"
-                        type="submit"
-                      >
-                        Login
-                      </Button>
-                    </Col>
-                    <Col>
-                      <Link
-                        style={{ textDecoration: 'none' }}
-                        to="/register"
-                      >
-                        Register
-                      </Link>
-                    </Col>
-                  </Row>
+                  <Button
+                    variant="primary"
+                    className="mt-2"
+                    size="lg"
+                    block="block"
+                    type="submit"
+                    >
+                    Login
+                  </Button>
                 </Form>
               </div>
             </div>

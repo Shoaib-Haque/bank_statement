@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
@@ -13,6 +13,13 @@ export default function Register() {
   const [bank_name, setBankName] = useState("");
   const [password, setPassword] = useState("");
   const [validationError, setValidationError] = useState({});
+
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if(!token) {
+      navigate(`/login`);
+    }
+  });
 
   const register = async (e) => {
     e.preventDefault();
@@ -69,7 +76,7 @@ export default function Register() {
                   <Row>
                     <Col>
                       <Form.Group controlId="bank_id">
-                        <Form.Label>bank_id</Form.Label>
+                        <Form.Label>bank Id</Form.Label>
                         <Form.Control
                           type="text"
                           value={bank_id}
@@ -117,16 +124,8 @@ export default function Register() {
                         block="block"
                         type="submit"
                       >
-                        Login
+                        Register
                       </Button>
-                    </Col>
-                    <Col>
-                      <Link
-                        style={{ textDecoration: 'none' }}
-                        to="/login"
-                      >
-                        Login
-                      </Link>
                     </Col>
                   </Row>
                 </Form>

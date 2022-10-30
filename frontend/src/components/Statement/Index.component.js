@@ -12,7 +12,7 @@ export default function Login() {
 
   const getStatement = () => {
     setLoading(true);
-    fetch("http://127.0.0.1:8000/api/auth/account-profile", {headers: { Authorization: `Bearer ${token}`}})
+    fetch("http://127.0.0.1:8000/api/account/account-profile", {headers: { Authorization: `Bearer ${token}`}})
       .then((response) => response.json())
       .then((data) => {
         setBankId(data.bank_id);

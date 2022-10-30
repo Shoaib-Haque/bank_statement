@@ -2,7 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AccountAuthController;
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,14 +21,24 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'auth'
-],
+Route::group(['middleware' => 'account','prefix' => 'account'],
     function ($router) {
-        Route::post('/login', [AuthController::class, 'login']);
-        Route::post('/register', [AuthController::class, 'register']);
-        Route::post('/logout', [AuthController::class, 'logout']);
-        Route::get('/account-profile', [AuthController::class, 'accountProfile']);
+        Route::post('/login', [AccountAuthController::class, 'login']);
+        Route::post('/logout', [AccountAuthController::class, 'logout']);
+        Route::get('/account-profile', [AccountAuthController::class, 'accountProfile']);
+    }
+);
+
+Route::group(['middleware' => 'admin', 'prefix' => 'admin'],
+    function ($router) {
+        Route::post('/login', [AdminAuthController::class, 'login']);
+
+        Route::post('/logout', [AdminAuthController::class, 'logout']);
+    }
+);
+
+Route::group(['middleware' => 'admin', 'prefix' => 'account'],
+    function ($router) {
+        Route::post('/register', [AccountController::class, 'register']);
     }
 );

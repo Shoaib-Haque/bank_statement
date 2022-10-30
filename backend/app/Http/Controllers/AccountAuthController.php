@@ -4,20 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Accounts;
 use Illuminate\Notifications\Action;
 use Validator;
 
-class AuthController extends Controller
+class AccountAuthController extends Controller
 {
     /**
-     * Create a new AuthController instance.
+     * Create a new AccountAuthController instance.
      *
      * @return void
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:account', ['except' => ['login', 'register']]);
+        config(['auth.defaults.guard' => 'account']);
     }
     /**
      * Get a JWT via given credentials.
@@ -38,31 +38,6 @@ class AuthController extends Controller
         }
         return $this->createNewToken($token);
     }
-    /**
-     * Register a Account.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function register(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'bank_id' => 'required|string|between:2,30',
-            'bank_name' => 'required|string|between:2,100',
-            'password' => 'required|string|min:6',
-        ]);
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
-        }
-        $account = Accounts::create(array_merge(
-            $validator->validated(),
-            ['password' => bcrypt($request->password)]
-        ));
-        return response()->json([
-            'message' => 'Account successfully registered',
-            'account' => $account
-        ], 201);
-    }
-
     /**
      * Log the Account out (Invalidate the token).
      *

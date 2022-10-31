@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 import Login from "./components/Auth/Login.component";
-import Register from "./components/Auth/Register.component";
+import Register from "./components/Account/Register.component";
 import Statements from "./components/Statement/Index.component";
 import Particulars from "./components/Particulars/Index.component";
 
@@ -18,10 +18,13 @@ function App() {
           <Col md={12}>
             <Routes>
               <Route path="/" element={<Navigate replace to="/login" />} />
+              {/* Auth */}
               <Route path="/login" element={<Login />} />
+              {/* Account */}
               <Route path="/register" element={<Register />} />
+              {/* Statement */}
               <Route path="/statements" element={<Statements />} />
-
+              {/* Particulars */}
               <Route path="/particulars" element={<Particulars />} />
             </Routes>
           </Col>

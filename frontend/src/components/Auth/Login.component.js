@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -26,6 +26,7 @@ export default function Login() {
       .then(({ data }) => {
         if (data.access_token !== "undefined" && data.access_token !== "") {
           localStorage.setItem("authToken", data.access_token);
+          localStorage.setItem("role", "account");
           navigate("/statements");
         }
       })
@@ -45,6 +46,7 @@ export default function Login() {
       .then(({ data }) => {
         if (data.access_token !== "undefined" && data.access_token !== "") {
           localStorage.setItem("authToken", data.access_token);
+          localStorage.setItem("role", "admin");
           navigate("/register");
         }
       })

@@ -2,10 +2,13 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AccountAuthController;
-use App\Http\Controllers\AdminAuthController;
-use App\Http\Controllers\Admin\AccountController as AdminAccountController;
-use App\Http\Controllers\ParticularController;
+// Auth
+use App\Http\Controllers\Auth\AccountAuthController;
+use App\Http\Controllers\Auth\AdminAuthController;
+// Account
+use App\Http\Controllers\Admin\Account\AccountController as AdminAccountController;
+// Particulars
+use App\Http\Controllers\Admin\Particulars\ParticularController as AdminParticularController;
 
 /*
 |--------------------------------------------------------------------------

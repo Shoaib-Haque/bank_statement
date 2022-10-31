@@ -3,6 +3,10 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+import Card from "react-bootstrap/Card";
+import ListGroup from "react-bootstrap/ListGroup";
+import Alert from "react-bootstrap/Alert";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate, Link } from "react-router-dom";
@@ -24,7 +28,9 @@ export default function Register() {
     const token = localStorage.getItem("authToken");
 
     await axios
-      .post(`http://127.0.0.1:8000/api/account/register`, formData, {headers: { Authorization: `Bearer ${token}`}})
+      .post(`http://127.0.0.1:8000/api/account/register`, formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then(({ data }) => {
         Swal.fire({
           icon: "success",
@@ -33,9 +39,10 @@ export default function Register() {
         navigate("/login");
       })
       .catch(({ response }) => {
-        console.log(response);
-        if (response.status === 400) {
+        console.log(response.data);
+        if (response.status === 422) {
           setValidationError(response.data.errors);
+          console.log(validationError);
         } else {
           Swal.fire({
             text: response.data.message,
@@ -47,29 +54,14 @@ export default function Register() {
 
   return (
     <Layout>
-      <div className="container">
-        <div className="row justify-content-center">
-          <div className="col-12 col-sm-12 col-md-6">
-            <div className="card">
-              <div className="card-body">
-                <h4 className="card-bank_id">Register</h4>
-                <hr />
-                <div className="form-wrapper">
-                  {Object.keys(validationError).length > 0 && (
-                    <div className="row">
-                      <div className="col-12">
-                        <div className="alert alert-danger">
-                          <ul className="mb-0">
-                            {Object.entries(validationError).map(
-                              ([key, value]) => (
-                                <li key={key}>{value}</li>
-                              )
-                            )}
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+      <Container>
+        <Row className="justify-content-md-center">
+          <Col md={6}>
+            <Card>
+              <Card.Header>Register Account</Card.Header>
+              <Card.Body>
+                <Card.Title>Fill the From</Card.Title>
+                <Card.Text>
                   <Form onSubmit={register}>
                     <Row>
                       <Col>
@@ -83,6 +75,18 @@ export default function Register() {
                             }}
                           />
                         </Form.Group>
+                        {typeof validationError.bank_id !== "undefined" &&
+                        validationError.bank_id !== "" ? (
+                          <Row>
+                            <Col>
+                              <Alert variant="danger p-2">
+                                {validationError.bank_id}
+                              </Alert>
+                            </Col>
+                          </Row>
+                        ) : (
+                          ""
+                        )}
                       </Col>
                     </Row>
                     <Row>
@@ -97,6 +101,18 @@ export default function Register() {
                             }}
                           />
                         </Form.Group>
+                        {typeof validationError.bank_name !== "undefined" &&
+                        validationError.bank_name !== "" ? (
+                          <Row>
+                            <Col>
+                              <Alert variant="danger p-2">
+                                {validationError.bank_name}
+                              </Alert>
+                            </Col>
+                          </Row>
+                        ) : (
+                          ""
+                        )}
                       </Col>
                     </Row>
                     <Row>
@@ -111,6 +127,18 @@ export default function Register() {
                             }}
                           />
                         </Form.Group>
+                        {typeof validationError.password !== "undefined" &&
+                        validationError.password !== "" ? (
+                          <Row>
+                            <Col>
+                              <Alert variant="danger p-2">
+                                {validationError.password}
+                              </Alert>
+                            </Col>
+                          </Row>
+                        ) : (
+                          ""
+                        )}
                       </Col>
                     </Row>
                     <Row>
@@ -127,12 +155,12 @@ export default function Register() {
                       </Col>
                     </Row>
                   </Form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
     </Layout>
   );
 }

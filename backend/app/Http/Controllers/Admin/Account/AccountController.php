@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Account;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -28,28 +28,23 @@ class AccountController extends Controller
      */
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'bank_id' => 'required|string|between:2,30',
             'bank_name' => 'required|string|between:2,100',
             'password' => 'required|string|min:6',
         ]);
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
-        }
+
         try {
-            $account = Accounts::create(array_merge(
-                $validator->validated(),
-                ['password' => bcrypt($request->password)]
-            ));
-        } catch(Exception $e) {
+            Accounts::create($request->post() + ['password' => bcrypt($request->password)]);
+
             return response()->json([
-                'message' => 'Account successfully registered',
-                'account' => $e
-            ], 201);
+                'message' => 'Account Created Successfully!!'
+            ]);
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            return response()->json([
+                'message' => 'Something goes wrong while creating a statement!!'
+            ], 500);
         }
-        return response()->json([
-            'message' => 'Account successfully registered',
-            'account' => $account
-        ], 201);
     }
 }

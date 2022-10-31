@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Accounts;
+use Exception;
+use Validator;
 
 class AccountController extends Controller
 {
@@ -17,7 +20,6 @@ class AccountController extends Controller
         $this->middleware('auth:admin');
         config(['auth.defaults.guard' => 'admin']);
     }
-
 
     /**
      * Register a Account.
@@ -34,10 +36,17 @@ class AccountController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 400);
         }
-        $account = Accounts::create(array_merge(
-            $validator->validated(),
-            ['password' => bcrypt($request->password)]
-        ));
+        try {
+            $account = Accounts::create(array_merge(
+                $validator->validated(),
+                ['password' => bcrypt($request->password)]
+            ));
+        } catch(Exception $e) {
+            return response()->json([
+                'message' => 'Account successfully registered',
+                'account' => $e
+            ], 201);
+        }
         return response()->json([
             'message' => 'Account successfully registered',
             'account' => $account

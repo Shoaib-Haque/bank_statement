@@ -27,8 +27,10 @@ export default function Register() {
     formData.append("bank_id", bank_id);
     formData.append("bank_name", bank_name);
     formData.append("password", password);
+    const token = localStorage.getItem("authToken");
+
     await axios
-      .post(`http://127.0.0.1:8000/api/auth/register`, formData)
+      .post(`http://127.0.0.1:8000/api/account/register`, formData, {headers: { Authorization: `Bearer ${token}`}})
       .then(({ data }) => {
         Swal.fire({
           icon: "success",
@@ -37,6 +39,7 @@ export default function Register() {
         navigate("/login");
       })
       .catch(({ response }) => {
+        console.log(response);
         if (response.status === 400) {
           setValidationError(response.data.errors);
         } else {

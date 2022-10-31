@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountAuthController;
 use App\Http\Controllers\AdminAuthController;
-use App\Http\Controllers\AccountController;
+use App\Http\Controllers\Admin\AccountController as AdminAccountController;
 use App\Http\Controllers\ParticularController;
 
 /*
@@ -40,6 +40,6 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'],
 
 Route::group(['middleware' => 'admin', 'prefix' => 'account'],
     function ($router) {
-        Route::post('/register', [AccountController::class, 'register']);
+        Route::post('/register', [AdminAccountController::class, 'register']);
     }
 );

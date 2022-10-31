@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Notifications\Action;
 use Validator;
+use Exception;
+use Illuminate\Auth\AuthenticationException;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AccountAuthController extends Controller
 {
@@ -17,7 +19,7 @@ class AccountAuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:account', ['except' => ['login', 'register']]);
+        $this->middleware('auth:account', ['except' => ['login']]);
         config(['auth.defaults.guard' => 'account']);
     }
     /**
@@ -44,10 +46,15 @@ class AccountAuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout()
+    public function logout(Request $request)
     {
-        auth()->logout();
-        return response()->json(['message' => 'Account successfully signed out']);
+        $this->validate($request, ['token' => 'required']);
+        try {
+            Auth::invalidate($request->input('token'));
+            return response()->json(['success' => true], 200);
+        } catch (JWTException $e) {
+            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+        }
     }
     /**
      * Get the authenticated Account.
@@ -71,7 +78,7 @@ class AccountAuthController extends Controller
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
-            'account' => auth()->user()
+            'account' => auth()->user(),
         ]);
     }
 }

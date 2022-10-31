@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Layout from "../Layout/Account/Layout.Component";
 
 export default function Login() {
   const [bank_id, setBankId] = useState("");
@@ -26,15 +27,16 @@ export default function Login() {
   };
 
   return (
-    <>
+    <Layout>
       {loading ? (
         <div>...Data Loading.....</div>
       ) : (
         <div>
-          <span>{bank_id}</span><br/>
+          <span>{bank_id}</span>
+          <br />
           <span>{bank_name}</span>
         </div>
       )}
-    </>
+    </Layout>
   );
 }

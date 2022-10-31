@@ -14,13 +14,6 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [validationError, setValidationError] = useState({});
 
-  useEffect(() => {
-    const token = localStorage.getItem('authToken');
-    if(!token) {
-      navigate(`/login`);
-    }
-  });
-
   const register = async (e) => {
     e.preventDefault();
     const formData = new FormData();

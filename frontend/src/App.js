@@ -4,7 +4,6 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
 import Login from "./components/Auth/Login.component";
 import Register from "./components/Account/Register.component";
@@ -20,13 +19,13 @@ function App() {
             <Routes>
               <Route path="/" element={<Navigate replace to="/login" />} />
               {/* Auth */}
-              <Route path="/login" element={<Login />} />
+              <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
               {/* Account */}
-              <Route path="/register" element={<RequireAuth><Register /></RequireAuth>}/>
+              <Route path="/register" element={<AdminProtectedRoute><Register /></AdminProtectedRoute>}/>
               {/* Statement */}
-              <Route path="/statements" element={<RequireAuth><Statements /></RequireAuth>} />
+              <Route path="/statements" element={<AccountProtectedRoute><Statements /></AccountProtectedRoute>} />
               {/* Particulars */}
-              <Route path="/particulars" element={<RequireAuth><Particulars /></RequireAuth>} />
+              <Route path="/particulars" element={<AdminProtectedRoute><Particulars /></AdminProtectedRoute>} />
             </Routes>
           </Col>
         </Row>
@@ -35,13 +34,29 @@ function App() {
   );
 }
 
-function RequireAuth({ children, redirectTo }) {
+function PublicRoute({ children }) {
   let isAuthenticated = getAuth();
-  return isAuthenticated ? children : <Navigate to='/login' />;
+  return isAuthenticated ? getRole() === "admin" ? <Navigate to='/register' /> : <Navigate to='/statements' /> : children;
+}
+
+function AdminProtectedRoute({ children }) {
+  let isAuthenticated = getAuth();
+  return isAuthenticated ? getRole() === "admin" ? children : <Navigate to='/statements' /> : <Navigate to='/login' />;
+}
+
+function AccountProtectedRoute({ children }) {
+  let isAuthenticated = getAuth();
+  return isAuthenticated ? getRole() === "account" ? children : <Navigate to='/register' /> : <Navigate to='/login' />;
 }
 
 function getAuth() {
   let token = localStorage.getItem("authToken");
   return token;
 }
+
+function getRole() {
+  let role = localStorage.getItem("role");
+  return role;
+}
+
 export default App;

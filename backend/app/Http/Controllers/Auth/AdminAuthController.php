@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
@@ -17,7 +18,7 @@ class AdminAuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:admin', ['except' => ['login', 'register']]);
+        $this->middleware('auth:admin', ['except' => ['login']]);
         config(['auth.defaults.guard' => 'admin']);
     }
     /**
@@ -63,7 +64,7 @@ class AdminAuthController extends Controller
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
-            'admin' => auth()->user()
+            //'admin' => auth()->user()
         ]);
     }
 }

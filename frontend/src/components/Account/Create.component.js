@@ -5,30 +5,56 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
-import ListGroup from "react-bootstrap/ListGroup";
 import Alert from "react-bootstrap/Alert";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../Layout/Admin/Layout.Component";
 
-export default function Register() {
+export default function Create() {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [bank_id, setBankId] = useState("");
   const [bank_name, setBankName] = useState("");
   const [password, setPassword] = useState("");
   const [validationError, setValidationError] = useState({});
+  const token = localStorage.getItem("authToken");
 
-  const register = async (e) => {
+  useEffect(() => {
+    if(id) {
+      show();
+    }
+  }, []);
+
+  const show = async () => {
+    await axios
+    .get(`${process.env.REACT_APP_API_BASE_URL}accounts/${id}`, { headers: { Authorization: `Bearer ${token}` }})
+    .then(({data})=>{
+      const { bank_id, bank_name } = data.account
+      setBankId(bank_id);
+      setBankName(bank_name);
+    }).catch(({response:{data}})=>{
+      Swal.fire({
+        text:data.message,
+        icon:"error"
+      })
+    })
+  };
+
+  const create = async (e) => {
     e.preventDefault();
+    let api = `http://127.0.0.1:8000/api/accounts`;
+    if (id) {
+      api = `http://127.0.0.1:8000/api/accounts/${id}/edit`;
+    }
+    const token = localStorage.getItem("authToken");
     const formData = new FormData();
     formData.append("bank_id", bank_id);
     formData.append("bank_name", bank_name);
     formData.append("password", password);
-    const token = localStorage.getItem("authToken");
 
     await axios
-      .post(`http://127.0.0.1:8000/api/account/register`, formData, {
+      .post(api, formData, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(({ data }) => {
@@ -36,7 +62,7 @@ export default function Register() {
           icon: "success",
           text: data.message,
         });
-        navigate("/login");
+        navigate("/accounts");
       })
       .catch(({ response }) => {
         console.log(response.data);
@@ -58,11 +84,10 @@ export default function Register() {
         <Row className="justify-content-md-center">
           <Col md={6}>
             <Card>
-              <Card.Header>Register Account</Card.Header>
+              <Card.Header>Create an Account</Card.Header>
               <Card.Body>
                 <Card.Title>Fill the From</Card.Title>
-                <Card.Text>
-                  <Form onSubmit={register}>
+                  <Form onSubmit={create}>
                     <Row>
                       <Col>
                         <Form.Group controlId="bank_id">
@@ -150,12 +175,11 @@ export default function Register() {
                           block="block"
                           type="submit"
                         >
-                          Register
+                          Create
                         </Button>
                       </Col>
                     </Row>
                   </Form>
-                </Card.Text>
               </Card.Body>
             </Card>
           </Col>

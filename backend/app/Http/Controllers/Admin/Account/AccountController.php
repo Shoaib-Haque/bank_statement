@@ -17,16 +17,25 @@ class AccountController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:admin');
         config(['auth.defaults.guard' => 'admin']);
     }
 
     /**
-     * Register a Account.
+     * Get Account List
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(Request $request)
+    public function index()
+    {
+        return Accounts::select('*')->get();
+    }
+
+    /**
+     * Create a Account.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function create(Request $request)
     {
         $request->validate([
             'bank_id' => 'required|string|between:2,30',
@@ -44,6 +53,49 @@ class AccountController extends Controller
             \Log::error($e->getMessage());
             return response()->json([
                 'message' => 'Something goes wrong while creating a statement!!'
+            ], 500);
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Accounts  $account
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $account = Accounts::find($id);
+        return response()->json([
+            'account' => $account
+        ]);
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Accounts  $account
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Accounts $account)
+    {
+        $request->validate([
+            'bank_id' => 'required|string|between:2,30',
+            'bank_name' => 'required|string|between:2,100',
+            'password' => 'required|string|min:6',
+        ]);
+
+        try {
+            $account->fill($request->post())->update();
+            return response()->json([
+                'message' => 'Account Updated Successfully!!'
+            ]);
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            return response()->json([
+                'message' => 'Something goes wrong while updating a Account!!'
             ], 500);
         }
     }

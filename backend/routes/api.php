@@ -41,8 +41,10 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'],
     }
 );
 
-Route::group(['middleware' => 'admin', 'prefix' => 'account'],
+Route::group(['middleware' => 'admin', 'prefix' => 'accounts'],
     function ($router) {
-        Route::post('/register', [AdminAccountController::class, 'register']);
+        Route::get('/', [AdminAccountController::class, 'index']);
+        Route::post('/', [AdminAccountController::class, 'create']);
+        Route::get('/{id}', [AdminAccountController::class, 'show']);
     }
 );

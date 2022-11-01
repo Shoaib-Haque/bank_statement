@@ -6,7 +6,8 @@ import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 import Login from "./components/Auth/Login.component";
-import Register from "./components/Account/Register.component";
+import AccountCreate from "./components/Account/Create.component";
+import Accounts from "./components/Account/Index.component";
 import Statements from "./components/Statement/Index.component";
 import Particulars from "./components/Particulars/Index.component";
 
@@ -21,7 +22,9 @@ function App() {
               {/* Auth */}
               <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
               {/* Account */}
-              <Route path="/register" element={<AdminProtectedRoute><Register /></AdminProtectedRoute>}/>
+              <Route path="/accounts" element={<AdminProtectedRoute><Accounts /></AdminProtectedRoute>}/>
+              <Route path="/accounts/create" element={<AdminProtectedRoute><AccountCreate /></AdminProtectedRoute>}/>
+              <Route path="/accounts/:id/edit" element={<AdminProtectedRoute><AccountCreate /></AdminProtectedRoute>} />
               {/* Statement */}
               <Route path="/statements" element={<AccountProtectedRoute><Statements /></AccountProtectedRoute>} />
               {/* Particulars */}
@@ -36,7 +39,7 @@ function App() {
 
 function PublicRoute({ children }) {
   let isAuthenticated = getAuth();
-  return isAuthenticated ? getRole() === "admin" ? <Navigate to='/register' /> : <Navigate to='/statements' /> : children;
+  return isAuthenticated ? getRole() === "admin" ? <Navigate to='/accounts' /> : <Navigate to='/statements' /> : children;
 }
 
 function AdminProtectedRoute({ children }) {
@@ -46,7 +49,7 @@ function AdminProtectedRoute({ children }) {
 
 function AccountProtectedRoute({ children }) {
   let isAuthenticated = getAuth();
-  return isAuthenticated ? getRole() === "account" ? children : <Navigate to='/register' /> : <Navigate to='/login' />;
+  return isAuthenticated ? getRole() === "account" ? children : <Navigate to='/accounts' /> : <Navigate to='/login' />;
 }
 
 function getAuth() {

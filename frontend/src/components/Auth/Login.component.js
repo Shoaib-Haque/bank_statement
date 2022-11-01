@@ -47,7 +47,7 @@ export default function Login() {
         if (data.access_token !== "undefined" && data.access_token !== "") {
           localStorage.setItem("authToken", data.access_token);
           localStorage.setItem("role", "admin");
-          navigate("/register");
+          navigate("/accounts");
         }
       })
       .catch(({ response }) => {

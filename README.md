@@ -103,6 +103,7 @@
     <li><strong>run the frontend</strong><br>npm run</li>
     <li><strong>install axios</strong><br>npm install axios react-bootstrap bootstrap</li>
     <li><strong>install react-router-dom</strong><br>npm install react-router-dom sweetalert2 --save</li>
+    <li><strong>install react-bootstrap-table</strong><br>npm i react-bootstrap-table-next --legacy-peer-deps</li>
 </ol>
 
 <h1>clone</h1>

@@ -1,21 +1,86 @@
 import React, { useEffect, useState } from "react";
-import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/Container";
-import Card from "react-bootstrap/Card";
-import Table from "react-bootstrap/Table";
-import Alert from "react-bootstrap/Alert";
-import Dropdown from "react-bootstrap/Dropdown";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate, Link } from "react-router-dom";
 import Layout from "../Layout/Admin/Layout.Component";
 import Css from "./Index.css";
+import Container from "react-bootstrap/Container";
+import Card from "react-bootstrap/Card";
+import Dropdown from "react-bootstrap/Dropdown";
+import Button from "react-bootstrap/Button";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import BootstrapTable from "react-bootstrap-table-next";
+import ToolkitProvider, {Search, CSVExport} from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
 
 export default function Index() {
   const navigate = useNavigate();
   const [list, setList] = useState([]);
+  const { SearchBar, ClearSearchButton } = Search;
+  const { ExportCSVButton } = CSVExport;
+  const columns = [
+    {
+      dataField: "sl.no",
+      text: "#",
+      csvExport: false,
+      formatter: (cell, row, rowIndex, formatExtraData) => {
+        return rowIndex + 1;
+      },
+    },
+    {
+      dataField: "bank_id",
+      text: "Bank ID",
+      sort: true,
+    },
+    {
+      dataField: "bank_name",
+      text: "Bank Name",
+      sort: true,
+    },
+    {
+      dataField: "link",
+      text: "ACTION",
+      csvExport: false,
+      formatter: (rowContent, row) => {
+        return (
+          <Dropdown className="buttons_dropdown">
+            <Dropdown.Toggle
+              variant="default"
+              id="dropdown-basic"
+              className="pt-0"
+            >
+              Action
+            </Dropdown.Toggle>
+            <Dropdown.Menu className="">
+              <Dropdown.Item>
+                <Link to={`/accounts/${row.id}/edit`}>
+                  <Button
+                    type="button"
+                    variant="success"
+                    size="sm"
+                    className="btn btn-block button"
+                  >
+                    Edit
+                  </Button>
+                </Link>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <Button
+                  type="button"
+                  variant="danger"
+                  size="sm"
+                  className="btn btn-block button"
+                  onClick={() => destroy(row.id)}
+                >
+                  Delete
+                </Button>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        );
+      },
+    },
+  ];
   const token = localStorage.getItem("authToken");
 
   const index = async () => {
@@ -90,66 +155,51 @@ export default function Index() {
             <Card>
               <Card.Header>Account List</Card.Header>
               <Card.Body>
-                <Card.Title>List of Accounts</Card.Title>
-                  <Table striped bordered hover className="buttons_table">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Bank Id</th>
-                        <th>Bank Name</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {
-                        list.map((item, key) => {
-                          return (
-                            <tr key={key}>
-                              <td>{key + 1}</td>
-                              <td>{item.bank_id}</td>
-                              <td>{item.bank_name}</td>
-                              <td>
-                                <Dropdown>
-                                  <Dropdown.Toggle
-                                    variant="default"
-                                    id="dropdown-basic"
-                                    className="pt-0"
-                                  >
-                                    Action
-                                  </Dropdown.Toggle>
-                                  <Dropdown.Menu>
-                                    <Dropdown.Item>
-                                      <Link to={`/accounts/${item.id}/edit`}>
-                                        <Button
-                                          type="button"
-                                          variant="success"
-                                          size="sm"
-                                          className="btn btn-block button"
-                                        >
-                                          Edit
-                                        </Button>
-                                      </Link>
-                                    </Dropdown.Item>
-                                    <Dropdown.Item>
-                                      <Button
-                                        type="button"
-                                        variant="danger"
-                                        size="sm"
-                                        className="btn btn-block button"
-                                        onClick={() => destroy(item.id)}
-                                      >
-                                        Delete
-                                      </Button>
-                                    </Dropdown.Item>
-                                  </Dropdown.Menu>
-                                </Dropdown>
-                              </td>
-                            </tr>
-                          );
-                        })
-                      }
-                    </tbody>
-                  </Table>
+                <ToolkitProvider
+                  keyField="Id"
+                  data={list}
+                  columns={columns}
+                  search
+                  bootstrap4
+                >
+                  {(props) => (
+                    <Row>
+                      <Col>
+                        <Row>
+                          <Col>
+                            <Card.Title>List of Accounts</Card.Title>
+                          </Col>
+                          <Col>
+                            <ExportCSVButton {...props.csvProps} className="btn-outline-secondary csv-button d-block d-md-none" >Export CSV</ExportCSVButton>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col>
+                            <SearchBar {...props.searchProps}
+                            srText=""
+                            placeholder="Search..."
+                            className="search-bar"/>
+                            <ClearSearchButton {...props.searchProps} className="btn-outline-secondary"/>
+                            <ExportCSVButton {...props.csvProps} className="btn-outline-secondary csv-button d-none d-md-block" >Export CSV</ExportCSVButton>
+                          </Col>
+                        </Row>
+                        <Row className="mt-2 scroll-div">
+                          <Col>
+                            <BootstrapTable
+                              bootstrap4
+                              width="100vw;"
+                              striped
+                              hover
+                              condensed
+                              {...props.baseProps}
+                            >
+                            </BootstrapTable>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                  )}
+                </ToolkitProvider>
               </Card.Body>
             </Card>
           </Col>

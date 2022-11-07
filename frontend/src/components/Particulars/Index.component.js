@@ -11,7 +11,9 @@ export default function Particulars() {
 
     const getParticulars = () => {
         setLoading(true);
-        fetch("http://127.0.0.1:8000/api/admin/particulars", {headers: { Authorization: `Bearer ${token}`}})
+        fetch(`${process.env.REACT_APP_API_BASE_URL}admin/particulars`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
           .then((response) => response.json())
           .then((data) => {
             setParticulars(data.particulars);

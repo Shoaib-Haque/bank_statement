@@ -14,19 +14,21 @@ const Navigation = () => {
     const formData = new FormData();
     formData.append("token", token);
     await axios
-    .post(`http://127.0.0.1:8000/api/account/logout`, formData, {headers: { Authorization: `Bearer ${token}`}})
-    .then(response => {
-      if (response.status === 200) {
-        localStorage.removeItem("authToken");
-        localStorage.removeItem("role");
-        navigate("/login");
-      } else {
+      .post(`${process.env.REACT_APP_API_BASE_URL}account/logout`, formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          localStorage.removeItem("authToken");
+          localStorage.removeItem("role");
+          navigate("/login");
+        } else {
+          console.log(response);
+        }
+      })
+      .catch(({ response }) => {
         console.log(response);
-      }
-    })
-    .catch(({ response }) => {
-      console.log(response);
-    });
+      });
   };
 
   return (

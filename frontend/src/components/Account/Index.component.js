@@ -19,7 +19,9 @@ export default function Index() {
 
   const index = async () => {
     await axios
-      .get(`http://127.0.0.1:8000/api/accounts`, { headers: { Authorization: `Bearer ${token}` }})
+      .get(`${process.env.REACT_APP_API_BASE_URL}accounts`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then(({ data }) => {
         setList(data);
       })

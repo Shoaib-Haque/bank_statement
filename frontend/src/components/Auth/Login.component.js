@@ -22,7 +22,7 @@ export default function Login() {
     formData.append("bank_id", bank_id);
     formData.append("password", password);
     await axios
-      .post(`http://127.0.0.1:8000/api/account/login`, formData)
+      .post(`${process.env.REACT_APP_API_BASE_URL}account/login`, formData)
       .then(({ data }) => {
         if (data.access_token !== "undefined" && data.access_token !== "") {
           localStorage.setItem("authToken", data.access_token);
@@ -42,7 +42,7 @@ export default function Login() {
     formData.append("username", bank_id);
     formData.append("password", password);
     await axios
-      .post(`http://127.0.0.1:8000/api/admin/login`, formData)
+      .post(`${process.env.REACT_APP_API_BASE_URL}admin/login`, formData)
       .then(({ data }) => {
         if (data.access_token !== "undefined" && data.access_token !== "") {
           localStorage.setItem("authToken", data.access_token);

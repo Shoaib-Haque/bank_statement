@@ -47,5 +47,6 @@ Route::group(['middleware' => 'admin', 'prefix' => 'accounts'],
         Route::post('/', [AdminAccountController::class, 'create']);
         Route::get('/{id}', [AdminAccountController::class, 'show']);
         Route::post('/{id}/edit', [AdminAccountController::class, 'update']);
+        Route::delete('/{id}', [AdminAccountController::class, 'destroy']);
     }
 );

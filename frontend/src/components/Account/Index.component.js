@@ -41,6 +41,46 @@ export default function Index() {
     index();
   }, []);
 
+  const destroy = async (id) => {
+    const isConfirm = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      return result.isConfirmed;
+    });
+
+    if (!isConfirm) {
+      return;
+    }
+
+    await axios
+      .delete(`${process.env.REACT_APP_API_BASE_URL}accounts/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(({ data }) => {
+        Swal.fire({
+          text: data.message,
+          icon: "success",
+        });
+        setList((list) => list.filter((item, i) => item.id !== id));
+      })
+      .catch(({ response }) => {
+        console.log(response.data);
+        if (response.status === 422) {
+        } else {
+          Swal.fire({
+            text: response.data.message,
+            icon: "error",
+          });
+        }
+      });
+  };
+
   return (
     <Layout>
       <Container>
@@ -94,6 +134,7 @@ export default function Index() {
                                         variant="danger"
                                         size="sm"
                                         className="btn  btn-block"
+                                        onClick={() => destroy(item.id)}
                                       >
                                         Delete
                                       </Button>

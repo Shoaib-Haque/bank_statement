@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin\Account;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Accounts;
-use Exception;
-use Validator;
 
 class AccountController extends Controller
 {
@@ -98,6 +96,24 @@ class AccountController extends Controller
             \Log::error($e->getMessage());
             return response()->json([
                 'message' => 'Something goes wrong while updating an Account!!'
+            ], 500);
+        }
+    }
+
+    /**
+     * Destroy the specified resource in storage.
+     *
+     * @param  int  $id
+     */
+    public function destroy($id)
+    {
+        try {
+            $account = Accounts::find($id);
+            $account->delete();
+        } catch(\Exception $e) {
+            \Log::error($e->getMessage());
+            return response()->json([
+                'message' => 'Something goes wrong while deleting an Account!!'
             ], 500);
         }
     }

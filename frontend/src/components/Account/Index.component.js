@@ -11,6 +11,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate, Link } from "react-router-dom";
 import Layout from "../Layout/Admin/Layout.Component";
+import Css from "./Index.css";
 
 export default function Index() {
   const navigate = useNavigate();
@@ -90,7 +91,7 @@ export default function Index() {
               <Card.Header>Account List</Card.Header>
               <Card.Body>
                 <Card.Title>List of Accounts</Card.Title>
-                  <Table striped bordered hover>
+                  <Table striped bordered hover className="buttons_table">
                     <thead>
                       <tr>
                         <th>#</th>
@@ -112,6 +113,7 @@ export default function Index() {
                                   <Dropdown.Toggle
                                     variant="default"
                                     id="dropdown-basic"
+                                    className="pt-0"
                                   >
                                     Action
                                   </Dropdown.Toggle>
@@ -122,7 +124,7 @@ export default function Index() {
                                           type="button"
                                           variant="success"
                                           size="sm"
-                                          className="btn  btn-block"
+                                          className="btn btn-block button"
                                         >
                                           Edit
                                         </Button>
@@ -133,7 +135,7 @@ export default function Index() {
                                         type="button"
                                         variant="danger"
                                         size="sm"
-                                        className="btn  btn-block"
+                                        className="btn btn-block button"
                                         onClick={() => destroy(item.id)}
                                       >
                                         Delete

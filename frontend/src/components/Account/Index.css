@@ -1,0 +1,7 @@
+.buttons_table {
+  width: 100%;
+  table-layout: fixed;
+}
+.buttons_table button {
+  width: 100%;
+}

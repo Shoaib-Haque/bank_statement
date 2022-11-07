@@ -17,6 +17,7 @@ class AccountController extends Controller
      */
     public function __construct()
     {
+        $this->middleware('auth:admin');
         config(['auth.defaults.guard' => 'admin']);
     }
 
@@ -79,15 +80,15 @@ class AccountController extends Controller
      * @param  \App\Models\Accounts  $account
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Accounts $account)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'bank_id' => 'required|string|between:2,30',
             'bank_name' => 'required|string|between:2,100',
-            'password' => 'required|string|min:6',
         ]);
 
         try {
+            $account = Accounts::find($id);
             $account->fill($request->post())->update();
             return response()->json([
                 'message' => 'Account Updated Successfully!!'
@@ -95,7 +96,7 @@ class AccountController extends Controller
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
             return response()->json([
-                'message' => 'Something goes wrong while updating a Account!!'
+                'message' => 'Something goes wrong while updating an Account!!'
             ], 500);
         }
     }

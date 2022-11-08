@@ -51,7 +51,7 @@ export default function Index() {
             >
               Action
             </Dropdown.Toggle>
-            <Dropdown.Menu className="">
+            <Dropdown.Menu className="dropdown-menu">
               <Dropdown.Item>
                 <Link to={`/accounts/${row.id}/edit`}>
                   <Button

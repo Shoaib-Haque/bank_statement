@@ -19,12 +19,14 @@ export default function Create() {
   const [password, setPassword] = useState("");
   const [validationError, setValidationError] = useState({});
   const [button_text, setButtonText] = useState("Create");
+  const [card_header, setCardHeader] = useState("Create an Account");
   const token = localStorage.getItem("authToken");
 
   useEffect(() => {
     if (typeof id !== "undefined") {
       show();
       setButtonText("Save");
+      setCardHeader("Update Account Information");
     }
   }, []);
 
@@ -87,9 +89,9 @@ export default function Create() {
         <Row className="justify-content-md-center">
           <Col md={6}>
             <Card>
-              <Card.Header>Create an Account</Card.Header>
+              <Card.Header>{ card_header }</Card.Header>
               <Card.Body>
-                <Card.Title>Fill the From</Card.Title>
+                <Card.Title>Fill the Form</Card.Title>
                 <Form onSubmit={create}>
                   <Row>
                     <Col>

@@ -13,6 +13,7 @@ import Col from "react-bootstrap/Col";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, {Search, CSVExport} from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
+import MoonLoader from "react-spinners/MoonLoader";
 
 export default function Index() {
   const navigate = useNavigate();
@@ -93,12 +94,12 @@ export default function Index() {
       })
       .then(({ data }) => {
         setList(data);
-        setLoading(false);
       })
       .catch(({ response }) => {
-        setLoading(false);
         console.log(response.data);
-        if (response.status === 422) {
+        if (response.status === 401) {
+          localStorage.clear();
+          navigate("/login");
         } else {
           Swal.fire({
             text: response.data.message,
@@ -106,6 +107,7 @@ export default function Index() {
           });
         }
       });
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -142,7 +144,9 @@ export default function Index() {
       })
       .catch(({ response }) => {
         console.log(response.data);
-        if (response.status === 422) {
+        if (response.status === 401) {
+          localStorage.clear();
+          navigate("/login");
         } else {
           Swal.fire({
             text: response.data.message,
@@ -153,73 +157,89 @@ export default function Index() {
   };
 
   return (
-    <Layout>
+    <Container>
       {loading ? (
-        <Container></Container>
+          <MoonLoader color="#000" className="moon-spinner" />
       ) : (
-        <Container>
-          <Row className="justify-content-md-center">
-            <Col md={8}>
-              <Card>
-                <Card.Header>Account List</Card.Header>
-                <Card.Body>
-                  {list.length ? (
-                    <ToolkitProvider
-                      keyField="Id"
-                      data={list}
-                      columns={columns}
-                      search
-                      bootstrap4
-                    >
-                      {(props) => (
-                        <Row>
-                          <Col>
-                            <Row>
-                              <Col>
-                                <Card.Title>List of Accounts</Card.Title>
-                              </Col>
-                              <Col>
-                                <ExportCSVButton {...props.csvProps} className="btn-outline-secondary csv-button d-block d-md-none" >Export CSV</ExportCSVButton>
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col>
-                                <SearchBar {...props.searchProps}
-                                srText=""
-                                placeholder="Search..."
-                                className="search-bar"/>
-                                <ClearSearchButton {...props.searchProps} className="btn-outline-secondary"/>
-                                <ExportCSVButton {...props.csvProps} className="btn-outline-secondary csv-button d-none d-md-block" >Export CSV</ExportCSVButton>
-                              </Col>
-                            </Row>
-                            <Row className="mt-2 scroll-div">
-                              <Col>
-                                <BootstrapTable
-                                  bootstrap4
-                                  width="100vw;"
-                                  striped
-                                  hover
-                                  condensed
-                                  {...props.baseProps}
-                                >
-                                </BootstrapTable>
-                              </Col>
-                            </Row>
-                          </Col>
-                        </Row>
-                      )}
-                    </ToolkitProvider>
-                  ) : (
-                    <Row>
-                      <Col>Nothing to Show</Col>
-                    </Row>
-                  )}
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
+        <Layout>
+          <Container>
+            <Row className="justify-content-md-center">
+              <Col md={8}>
+                <Card>
+                  <Card.Header>Account List</Card.Header>
+                  <Card.Body>
+                    {list.length ? (
+                      <ToolkitProvider
+                        keyField="Id"
+                        data={list}
+                        columns={columns}
+                        search
+                        bootstrap4
+                      >
+                        {(props) => (
+                          <Row>
+                            <Col>
+                              <Row>
+                                <Col>
+                                  <Card.Title>List of Accounts</Card.Title>
+                                </Col>
+                                <Col>
+                                  <ExportCSVButton
+                                    {...props.csvProps}
+                                    className="btn-outline-secondary csv-button d-block d-md-none"
+                                  >
+                                    Export CSV
+                                  </ExportCSVButton>
+                                </Col>
+                              </Row>
+                              <Row>
+                                <Col>
+                                  <SearchBar
+                                    {...props.searchProps}
+                                    srText=""
+                                    placeholder="Search..."
+                                    className="search-bar"
+                                  />
+                                  <ClearSearchButton
+                                    {...props.searchProps}
+                                    className="btn-outline-secondary"
+                                  />
+                                  <ExportCSVButton
+                                    {...props.csvProps}
+                                    className="btn-outline-secondary csv-button d-none d-md-block"
+                                  >
+                                    Export CSV
+                                  </ExportCSVButton>
+                                </Col>
+                              </Row>
+                              <Row className="mt-2 scroll-div">
+                                <Col>
+                                  <BootstrapTable
+                                    bootstrap4
+                                    width="100vw;"
+                                    striped
+                                    hover
+                                    condensed
+                                    {...props.baseProps}
+                                  ></BootstrapTable>
+                                </Col>
+                              </Row>
+                            </Col>
+                          </Row>
+                        )}
+                      </ToolkitProvider>
+                    ) : (
+                      <Row>
+                        <Col>Nothing to Show</Col>
+                      </Row>
+                    )}
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+          </Container>
+        </Layout>
       )}
-    </Layout>
+    </Container>
   );
 }

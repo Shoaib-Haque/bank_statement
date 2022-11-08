@@ -105,6 +105,7 @@
     <li><strong>install react-router-dom</strong><br>npm install react-router-dom sweetalert2 --save</li>
     <li><strong>install react-bootstrap-table</strong><br>npm i react-bootstrap-table-next --legacy-peer-deps</li>
     <li><strong>install react-bootstrap-table2-toolkit</strong><br>npm i react-bootstrap-table2-toolkit --legacy-peer-deps</li>
+    <li><strong>install react-spinners</strong><br>npm install --save react-spinners</li>
 </ol>
 
 <h1>clone</h1>

@@ -10,12 +10,14 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, {Search, CSVExport} from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
 
 export default function Index() {
   const navigate = useNavigate();
   const [list, setList] = useState([]);
+  const [loading, setLoading] = useState(false);
   const { SearchBar, ClearSearchButton } = Search;
   const { ExportCSVButton } = CSVExport;
   const columns = [
@@ -51,7 +53,7 @@ export default function Index() {
             >
               Action
             </Dropdown.Toggle>
-            <Dropdown.Menu className="dropdown-menu">
+            <Dropdown.Menu className="dropdown-menu-action">
               <Dropdown.Item>
                 <Link to={`/accounts/${row.id}/edit`}>
                   <Button
@@ -84,14 +86,17 @@ export default function Index() {
   const token = localStorage.getItem("authToken");
 
   const index = async () => {
+    setLoading(true);
     await axios
       .get(`${process.env.REACT_APP_API_BASE_URL}accounts`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(({ data }) => {
         setList(data);
+        setLoading(false);
       })
       .catch(({ response }) => {
+        setLoading(false);
         console.log(response.data);
         if (response.status === 422) {
         } else {
@@ -149,62 +154,72 @@ export default function Index() {
 
   return (
     <Layout>
-      <Container>
-        <Row className="justify-content-md-center">
-          <Col md={8}>
-            <Card>
-              <Card.Header>Account List</Card.Header>
-              <Card.Body>
-                <ToolkitProvider
-                  keyField="Id"
-                  data={list}
-                  columns={columns}
-                  search
-                  bootstrap4
-                >
-                  {(props) => (
+      {loading ? (
+        <Container></Container>
+      ) : (
+        <Container>
+          <Row className="justify-content-md-center">
+            <Col md={8}>
+              <Card>
+                <Card.Header>Account List</Card.Header>
+                <Card.Body>
+                  {list.length ? (
+                    <ToolkitProvider
+                      keyField="Id"
+                      data={list}
+                      columns={columns}
+                      search
+                      bootstrap4
+                    >
+                      {(props) => (
+                        <Row>
+                          <Col>
+                            <Row>
+                              <Col>
+                                <Card.Title>List of Accounts</Card.Title>
+                              </Col>
+                              <Col>
+                                <ExportCSVButton {...props.csvProps} className="btn-outline-secondary csv-button d-block d-md-none" >Export CSV</ExportCSVButton>
+                              </Col>
+                            </Row>
+                            <Row>
+                              <Col>
+                                <SearchBar {...props.searchProps}
+                                srText=""
+                                placeholder="Search..."
+                                className="search-bar"/>
+                                <ClearSearchButton {...props.searchProps} className="btn-outline-secondary"/>
+                                <ExportCSVButton {...props.csvProps} className="btn-outline-secondary csv-button d-none d-md-block" >Export CSV</ExportCSVButton>
+                              </Col>
+                            </Row>
+                            <Row className="mt-2 scroll-div">
+                              <Col>
+                                <BootstrapTable
+                                  bootstrap4
+                                  width="100vw;"
+                                  striped
+                                  hover
+                                  condensed
+                                  {...props.baseProps}
+                                >
+                                </BootstrapTable>
+                              </Col>
+                            </Row>
+                          </Col>
+                        </Row>
+                      )}
+                    </ToolkitProvider>
+                  ) : (
                     <Row>
-                      <Col>
-                        <Row>
-                          <Col>
-                            <Card.Title>List of Accounts</Card.Title>
-                          </Col>
-                          <Col>
-                            <ExportCSVButton {...props.csvProps} className="btn-outline-secondary csv-button d-block d-md-none" >Export CSV</ExportCSVButton>
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col>
-                            <SearchBar {...props.searchProps}
-                            srText=""
-                            placeholder="Search..."
-                            className="search-bar"/>
-                            <ClearSearchButton {...props.searchProps} className="btn-outline-secondary"/>
-                            <ExportCSVButton {...props.csvProps} className="btn-outline-secondary csv-button d-none d-md-block" >Export CSV</ExportCSVButton>
-                          </Col>
-                        </Row>
-                        <Row className="mt-2 scroll-div">
-                          <Col>
-                            <BootstrapTable
-                              bootstrap4
-                              width="100vw;"
-                              striped
-                              hover
-                              condensed
-                              {...props.baseProps}
-                            >
-                            </BootstrapTable>
-                          </Col>
-                        </Row>
-                      </Col>
+                      <Col>Nothing to Show</Col>
                     </Row>
                   )}
-                </ToolkitProvider>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+      )}
     </Layout>
   );
 }

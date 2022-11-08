@@ -16,6 +16,6 @@
   display: flex;
   overflow: auto;
 }
-.dropdown-menu {
+.dropdown-menu-action {
   position: fixed !important;
 }

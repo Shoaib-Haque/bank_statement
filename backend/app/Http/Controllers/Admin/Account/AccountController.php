@@ -44,7 +44,9 @@ class AccountController extends Controller
         ]);
 
         try {
-            Accounts::create($request->post() + ['password' => bcrypt($request->password)]);
+            Accounts::create(['bank_id' => $request->bank_id,
+                              'bank_name' => $request->bank_name,
+                              'password' => bcrypt($request->password)]);
 
             return response()->json([
                 'message' => 'Account Created Successfully!!'

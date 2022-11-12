@@ -22,6 +22,7 @@ export default function Create() {
   const [loading, setLoading] = useState(false);
   const [button_text, setButtonText] = useState("Create");
   const [card_header, setCardHeader] = useState("Create an Account");
+  const [card_title, setCardTitle] = useState("Fill the Form");
   const token = localStorage.getItem("authToken");
 
   useEffect(() => {
@@ -30,6 +31,7 @@ export default function Create() {
       show();
       setButtonText("Save");
       setCardHeader("Update Account Information");
+      setCardTitle("Account Information");
     }
   }, []);
 
@@ -76,8 +78,9 @@ export default function Create() {
         Swal.fire({
           icon: "success",
           text: data.message,
+        }).then(function() {
+          navigate("/accounts");
         });
-        navigate("/accounts");
       })
       .catch(({ response }) => {
         console.log(response.data);
@@ -107,7 +110,7 @@ export default function Create() {
                 <Card>
                   <Card.Header>{card_header}</Card.Header>
                   <Card.Body>
-                    <Card.Title>Fill the Form</Card.Title>
+                    <Card.Title>{card_title}</Card.Title>
                     <Form onSubmit={create}>
                       <Row>
                         <Col>

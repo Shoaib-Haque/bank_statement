@@ -41,6 +41,8 @@ const Navigation = () => {
           <Nav className="me-auto">
             <NavDropdown title="Action" id="basic-nav-dropdown">
               <NavDropdown.Item href="/accounts/create">Create Account</NavDropdown.Item>
+              <NavDropdown.Item href="/particulars/create">Create Particulars</NavDropdown.Item>
+              <NavDropdown.Item href="/particulars">Particulars</NavDropdown.Item>
             </NavDropdown>
           </Nav>
           <Form inline >

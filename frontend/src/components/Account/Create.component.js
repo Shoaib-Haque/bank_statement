@@ -10,6 +10,7 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import Alert from "react-bootstrap/Alert";
+import Loader from "../Loader/Loader.component";
 
 export default function Create() {
   const navigate = useNavigate();
@@ -97,7 +98,7 @@ export default function Create() {
   return (
     <Container>
       {loading ? (
-        <Row></Row>
+        <Loader />
       ) : (
         <Layout>
           <Container>

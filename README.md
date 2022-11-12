@@ -105,7 +105,6 @@
     <li><strong>install react-router-dom</strong><br>npm install react-router-dom sweetalert2 --save</li>
     <li><strong>install react-bootstrap-table</strong><br>npm i react-bootstrap-table-next --legacy-peer-deps</li>
     <li><strong>install react-bootstrap-table2-toolkit</strong><br>npm i react-bootstrap-table2-toolkit --legacy-peer-deps</li>
-    <li><strong>install react-spinners</strong><br>npm install --save react-spinners</li>
 </ol>
 
 <h1>clone</h1>
@@ -137,5 +136,6 @@
 <ol type="1">
     <li><strong>change directory</strong><br>cd frontend</li>
     <li><strong>install react</strong><br>npm install</li>
+    <li><strong>copy .env.local.example and rename it to .env</strong><br>cp .env.local.example .env</li>
     <li><strong>run the frontend</strong><br>npm start</li>
 </ol>

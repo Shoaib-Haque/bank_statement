@@ -8,7 +8,7 @@ use App\Http\Controllers\Auth\AdminAuthController;
 // Account
 use App\Http\Controllers\Admin\Account\AccountController as AdminAccountController;
 // Particulars
-use App\Http\Controllers\Admin\Particulars\ParticularController as AdminParticularController;
+use App\Http\Controllers\Admin\Particular\ParticularController as AdminParticularController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,5 +48,15 @@ Route::group(['middleware' => 'admin', 'prefix' => 'accounts'],
         Route::get('/{id}', [AdminAccountController::class, 'show']);
         Route::post('/{id}/edit', [AdminAccountController::class, 'update']);
         Route::delete('/{id}', [AdminAccountController::class, 'destroy']);
+    }
+);
+
+Route::group(['middleware' => 'admin', 'prefix' => 'particulars'],
+    function ($router) {
+        Route::get('/', [AdminParticularController::class, 'index']);
+        Route::post('/', [AdminParticularController::class, 'create']);
+        Route::get('/{id}', [AdminParticularController::class, 'show']);
+        Route::post('/{id}/edit', [AdminParticularController::class, 'update']);
+        Route::delete('/{id}', [AdminParticularController::class, 'destroy']);
     }
 );

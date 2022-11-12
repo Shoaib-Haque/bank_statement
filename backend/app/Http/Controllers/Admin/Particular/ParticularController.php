@@ -38,7 +38,7 @@ class ParticularController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            'Particulars' => 'required|string|between:2,50'
+            'particulars' => 'required|string|between:2,50|unique:particulars,particulars'
         ]);
 
         try {
@@ -80,7 +80,7 @@ class ParticularController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'Particulars' => 'required|string|between:2,50'
+            'particulars' => 'required|string|between:2,50|unique:particulars,particulars,' . $id,
         ]);
 
         try {
@@ -107,6 +107,9 @@ class ParticularController extends Controller
         try {
             $Particulars = Particulars::find($id);
             $Particulars->delete();
+            return response()->json([
+                'message' => 'Particulars Deleted Successfully!!'
+            ]);
         } catch(\Exception $e) {
             \Log::error($e->getMessage());
             return response()->json([

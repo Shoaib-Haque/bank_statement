@@ -10,6 +10,7 @@ import AccountCreate from "./components/Account/Create.component";
 import Accounts from "./components/Account/Index.component";
 import Statements from "./components/Statement/Index.component";
 import Particulars from "./components/Particulars/Index.component";
+import ParticularsCreate from "./components/Particulars/Create.component";
 
 function App() {
   return (
@@ -29,6 +30,8 @@ function App() {
               <Route path="/statements" element={<AccountProtectedRoute><Statements /></AccountProtectedRoute>} />
               {/* Particulars */}
               <Route path="/particulars" element={<AdminProtectedRoute><Particulars /></AdminProtectedRoute>} />
+              <Route path="/particulars/create" element={<AdminProtectedRoute><ParticularsCreate /></AdminProtectedRoute>} />
+              <Route path="/particulars/:id/edit" element={<AdminProtectedRoute><ParticularsCreate /></AdminProtectedRoute>} />
             </Routes>
           </Col>
         </Row>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Account;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Accounts;
+use Illuminate\Validation\Rule;
 
 class AccountController extends Controller
 {
@@ -37,8 +38,14 @@ class AccountController extends Controller
      */
     public function create(Request $request)
     {
+        $bank_id = $request->input('bank_id');
+        $bank_name = $request->input('bank_name');
         $request->validate([
-            'bank_id' => 'required|string|between:2,30',
+            'bank_id' => ['required', 'string', 'between:2,30',
+            Rule::unique('accounts')->where(function ($query) use($bank_id,$bank_name) {
+                return $query->where('bank_id', $bank_id)
+                ->where('bank_name', $bank_name);
+            })],
             'bank_name' => 'required|string|between:2,100',
             'password' => 'required|string|min:6',
         ]);
@@ -83,8 +90,14 @@ class AccountController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $bank_id = $request->input('bank_id');
+        $bank_name = $request->input('bank_name');
         $request->validate([
-            'bank_id' => 'required|string|between:2,30',
+            'bank_id' => ['required', 'string', 'between:2,30',
+            Rule::unique('accounts')->where(function ($query) use($bank_id,$bank_name) {
+                return $query->where('bank_id', $bank_id)
+                ->where('bank_name', $bank_name);
+            })],
             'bank_name' => 'required|string|between:2,100',
         ]);
 
@@ -112,6 +125,9 @@ class AccountController extends Controller
         try {
             $account = Accounts::find($id);
             $account->delete();
+            return response()->json([
+                'message' => 'Account Deleted Successfully!!'
+            ]);
         } catch(\Exception $e) {
             \Log::error($e->getMessage());
             return response()->json([

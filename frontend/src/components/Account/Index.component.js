@@ -13,7 +13,7 @@ import Col from "react-bootstrap/Col";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, {Search, CSVExport} from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
-import MoonLoader from "react-spinners/MoonLoader";
+import Loader from "../Loader/Loader.component";
 
 export default function Index() {
   const navigate = useNavigate();
@@ -159,7 +159,7 @@ export default function Index() {
   return (
     <Container>
       {loading ? (
-          <MoonLoader color="#000" className="moon-spinner" />
+          <Loader />
       ) : (
         <Layout>
           <Container>

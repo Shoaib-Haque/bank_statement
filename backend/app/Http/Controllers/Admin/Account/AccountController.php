@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Account;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Accounts;
+use Exception;
 use Illuminate\Validation\Rule;
 
 class AccountController extends Controller
@@ -74,10 +75,22 @@ class AccountController extends Controller
      */
     public function show($id)
     {
-        $account = Accounts::find($id);
-        return response()->json([
-            'account' => $account
-        ]);
+        try {
+            $account = Accounts::find($id);
+            if($account) {
+                return response()->json([
+                    'account' => $account
+                ]);
+            }
+            return response()->json([
+                'message' => 'Record not found!!'
+            ], 404);
+        } catch(\Exception $e) {
+            \Log::error($e->getMessage());
+            return response()->json([
+                'message' => 'Something went wrong!!'
+            ], 500);
+        }
     }
 
 

@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import Container from "react-bootstrap/Container";
+import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Badge from "react-bootstrap/Badge";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
@@ -66,82 +69,67 @@ export default function Login() {
   };
 
   return (
-    <div className="container">
-      <div className="row justify-content-center">
-        <div className="col-12 col-sm-12 col-md-6">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-id">Login</h4>
-              <hr />
-              <div className="form-wrapper">
-                <Form onSubmit={login}>
+    <Container fluid className="p-0 mt-5">
+      <Row className="justify-content-center">
+        <Col sm={12} md={6}>
+          <Card>
+            <Card.Header>Login</Card.Header>
+            <Card.Body>
+              <Card.Title>Please Login with Your Id and Password</Card.Title>
+              <Form onSubmit={login}>
+                <Row>
+                  <Col>
+                    <Form.Group controlId="bank_id">
+                      <Form.Label>Bank Id</Form.Label>
+                      <Form.Control
+                        type="text"
+                        value={bank_id}
+                        onChange={(event) => {
+                          setBankId(event.target.value);
+                        }}
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Form.Group controlId="Password">
+                      <Form.Label>Password</Form.Label>
+                      <Form.Control
+                        type="password"
+                        value={password}
+                        onChange={(event) => {
+                          setPassword(event.target.value);
+                        }}
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                {typeof authError !== "undefined" && authError !== "" ? (
                   <Row>
                     <Col>
-                      <Form.Group controlId="bank_id">
-                        <Form.Label>Bank Id</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={bank_id}
-                          onChange={(event) => {
-                            setBankId(event.target.value);
-                          }}
-                        />
+                      <Form.Group controlId="authError" className="alert alert-danger text-black p-1 mt-1">
+                        <Form.Label>{authError}</Form.Label>
                       </Form.Group>
-                      {(typeof validationError.bank_id !== 'undefined' && validationError.bank_id !== "") ?
-                        <div className="row mt-1">
-                          <div className="col-12">
-                            <div className="alert alert-danger">
-                              <span>{validationError.bank_id}</span>
-                            </div>
-                          </div>
-                        </div> : ''}
                     </Col>
                   </Row>
-                  <Row>
-                    <Col>
-                      <Form.Group controlId="Password">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control
-                          type="password"
-                          value={password}
-                          onChange={(event) => {
-                            setPassword(event.target.value);
-                          }}
-                        />
-                      </Form.Group>
-                      {(typeof validationError.password !== 'undefined' && validationError.password !== "") ?
-                        <div className="row mt-1">
-                          <div className="col-12">
-                            <div className="alert alert-danger">
-                              <span>{validationError.password}</span>
-                            </div>
-                          </div>
-                        </div> : ''}
-                    </Col>
-                  </Row>
-                  {(typeof authError !== 'undefined' && authError !== "") ?
-                    <div className="row mt-1">
-                      <div className="col-12">
-                        <div className="alert alert-danger">
-                          <span>{authError}</span>
-                        </div>
-                      </div>
-                    </div> : ''}
-                  <Button
-                    variant="primary"
-                    className="mt-2"
-                    size="lg"
-                    block="block"
-                    type="submit"
-                    >
-                    Login
-                  </Button>
-                </Form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+                ) : (
+                  null
+                )}
+                <Button
+                  variant="primary"
+                  className="mt-2"
+                  size="lg"
+                  block="block"
+                  type="submit"
+                >
+                  Login
+                </Button>
+              </Form>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 }

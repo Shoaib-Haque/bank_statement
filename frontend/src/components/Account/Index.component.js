@@ -17,8 +17,9 @@ import Loader from "../Loader/Loader.component";
 
 export default function Index() {
   const navigate = useNavigate();
-  const [list, setList] = useState([]);
+  const token = localStorage.getItem("authToken");
   const [loading, setLoading] = useState(false);
+  const [list, setList] = useState([]);
   const { SearchBar, ClearSearchButton } = Search;
   const { ExportCSVButton } = CSVExport;
   const columns = [
@@ -84,7 +85,6 @@ export default function Index() {
       },
     },
   ];
-  const token = localStorage.getItem("authToken");
 
   const index = async () => {
     setLoading(true);

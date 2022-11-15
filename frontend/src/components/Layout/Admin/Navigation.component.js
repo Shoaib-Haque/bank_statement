@@ -34,19 +34,25 @@ const Navigation = () => {
 
   return (
     <Navbar bg="light" expand="lg" sticky="top" className="mb-2">
-      <Container>
+      <Container fluid>
         <Navbar.Brand href="/accounts">Home</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <NavDropdown title="Action" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/accounts/create">Create Account</NavDropdown.Item>
-              <NavDropdown.Item href="/particulars/create">Create Particulars</NavDropdown.Item>
-              <NavDropdown.Item href="/particulars">Particulars</NavDropdown.Item>
+              <NavDropdown.Item href="/accounts/create">
+                Create Account
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/particulars/create">
+                Create Particulars
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/particulars">
+                Particulars
+              </NavDropdown.Item>
             </NavDropdown>
           </Nav>
-          <Form inline >
-              <Button
+          <Form inline>
+            <Button
               variant=""
               className=""
               size="sm"
@@ -56,7 +62,7 @@ const Navigation = () => {
             >
               Logout
             </Button>
-            </Form>
+          </Form>
         </Navbar.Collapse>
       </Container>
     </Navbar>

@@ -15,23 +15,79 @@ import ParticularsCreate from "./components/Particulars/Create.component";
 function App() {
   return (
     <Router>
-      <Container className="mt-5">
+      <Container fluid className='p-0'>
         <Row>
           <Col md={12}>
             <Routes>
               <Route path="/" element={<Navigate replace to="/login" />} />
               {/* Auth */}
-              <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+              <Route
+                path="/login"
+                element={
+                  <PublicRoute>
+                    <Login />
+                  </PublicRoute>
+                }
+              />
               {/* Account */}
-              <Route path="/accounts" element={<AdminProtectedRoute><Accounts /></AdminProtectedRoute>}/>
-              <Route path="/accounts/create" element={<AdminProtectedRoute><AccountCreate /></AdminProtectedRoute>}/>
-              <Route path="/accounts/:id/edit" element={<AdminProtectedRoute><AccountCreate /></AdminProtectedRoute>} />
+              <Route
+                path="/accounts"
+                element={
+                  <AdminProtectedRoute>
+                    <Accounts />
+                  </AdminProtectedRoute>
+                }
+              />
+              <Route
+                path="/accounts/create"
+                element={
+                  <AdminProtectedRoute>
+                    <AccountCreate />
+                  </AdminProtectedRoute>
+                }
+              />
+              <Route
+                path="/accounts/:id/edit"
+                element={
+                  <AdminProtectedRoute>
+                    <AccountCreate />
+                  </AdminProtectedRoute>
+                }
+              />
               {/* Statement */}
-              <Route path="/statements" element={<AccountProtectedRoute><Statements /></AccountProtectedRoute>} />
+              <Route
+                path="/statements"
+                element={
+                  <AccountProtectedRoute>
+                    <Statements />
+                  </AccountProtectedRoute>
+                }
+              />
               {/* Particulars */}
-              <Route path="/particulars" element={<AdminProtectedRoute><Particulars /></AdminProtectedRoute>} />
-              <Route path="/particulars/create" element={<AdminProtectedRoute><ParticularsCreate /></AdminProtectedRoute>} />
-              <Route path="/particulars/:id/edit" element={<AdminProtectedRoute><ParticularsCreate /></AdminProtectedRoute>} />
+              <Route
+                path="/particulars"
+                element={
+                  <AdminProtectedRoute>
+                    <Particulars />
+                  </AdminProtectedRoute>
+                }
+              />
+              <Route
+                path="/particulars/create"
+                element={
+                  <AdminProtectedRoute>
+                    <ParticularsCreate />
+                  </AdminProtectedRoute>
+                }
+              />
+              <Route
+                path="/particulars/:id/edit"
+                element={
+                  <AdminProtectedRoute>
+                    <ParticularsCreate />
+                  </AdminProtectedRoute>
+                }
+              />
             </Routes>
           </Col>
         </Row>

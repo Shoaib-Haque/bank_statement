@@ -121,11 +121,11 @@ export default function Particulars() {
       }).then((result) => {
         return result.isConfirmed;
       });
-  
+
       if (!isConfirm) {
         return;
       }
-  
+
       await axios
         .delete(`${process.env.REACT_APP_API_BASE_URL}particulars/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -157,82 +157,80 @@ export default function Particulars() {
         <Loader />
       ) : (
         <Layout>
-          <Container>
-            <Row className="justify-content-md-center">
-              <Col md={8}>
-                <Card>
-                  <Card.Header>Particulars List</Card.Header>
-                  <Card.Body>
-                    {list.length ? (
-                      <ToolkitProvider
-                        keyField="Id"
-                        data={list}
-                        columns={columns}
-                        search
-                        bootstrap4
-                      >
-                        {(props) => (
-                          <Row>
-                            <Col>
-                              <Row>
-                                <Col>
-                                  <Card.Title>List of Particulars</Card.Title>
-                                </Col>
-                                <Col>
-                                  <ExportCSVButton
-                                    {...props.csvProps}
-                                    className="btn-outline-secondary csv-button d-block d-md-none"
-                                  >
-                                    Export CSV
-                                  </ExportCSVButton>
-                                </Col>
-                              </Row>
-                              <Row>
-                                <Col>
-                                  <SearchBar
-                                    {...props.searchProps}
-                                    srText=""
-                                    placeholder="Search..."
-                                    className="search-bar"
-                                  />
-                                  <ClearSearchButton
-                                    {...props.searchProps}
-                                    className="btn-outline-secondary"
-                                  />
-                                  <ExportCSVButton
-                                    {...props.csvProps}
-                                    className="btn-outline-secondary csv-button d-none d-md-block"
-                                  >
-                                    Export CSV
-                                  </ExportCSVButton>
-                                </Col>
-                              </Row>
-                              <Row className="mt-2 scroll-div">
-                                <Col>
-                                  <BootstrapTable
-                                    bootstrap4
-                                    width="100vw;"
-                                    striped
-                                    hover
-                                    condensed
-                                    {...props.baseProps}
-                                  ></BootstrapTable>
-                                </Col>
-                              </Row>
-                            </Col>
-                          </Row>
-                        )}
-                      </ToolkitProvider>
-                    ) : (
-                      <Row>
-                        <Col>Nothing to Show</Col>
-                      </Row>
-                    )}
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-          </Container>
+          <Row className="justify-content-md-center">
+            <Col md={8}>
+              <Card>
+                <Card.Header>Particulars List</Card.Header>
+                <Card.Body>
+                  {list.length ? (
+                    <ToolkitProvider
+                      keyField="Id"
+                      data={list}
+                      columns={columns}
+                      search
+                      bootstrap4
+                    >
+                      {(props) => (
+                        <Row>
+                          <Col>
+                            <Row>
+                              <Col>
+                                <Card.Title>List of Particulars</Card.Title>
+                              </Col>
+                              <Col>
+                                <ExportCSVButton
+                                  {...props.csvProps}
+                                  className="btn-outline-secondary csv-button d-block d-md-none"
+                                >
+                                  Export CSV
+                                </ExportCSVButton>
+                              </Col>
+                            </Row>
+                            <Row>
+                              <Col>
+                                <SearchBar
+                                  {...props.searchProps}
+                                  srText=""
+                                  placeholder="Search..."
+                                  className="search-bar"
+                                />
+                                <ClearSearchButton
+                                  {...props.searchProps}
+                                  className="btn-outline-secondary"
+                                />
+                                <ExportCSVButton
+                                  {...props.csvProps}
+                                  className="btn-outline-secondary csv-button d-none d-md-block"
+                                >
+                                  Export CSV
+                                </ExportCSVButton>
+                              </Col>
+                            </Row>
+                            <Row className="mt-2 scroll-div">
+                              <Col>
+                                <BootstrapTable
+                                  bootstrap4
+                                  width="100vw;"
+                                  striped
+                                  hover
+                                  condensed
+                                  {...props.baseProps}
+                                ></BootstrapTable>
+                              </Col>
+                            </Row>
+                          </Col>
+                        </Row>
+                      )}
+                    </ToolkitProvider>
+                  ) : (
+                    <Row>
+                      <Col>Nothing to Show</Col>
+                    </Row>
+                  )}
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
         </Layout>
       )}
     </>

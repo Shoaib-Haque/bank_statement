@@ -3,7 +3,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate, Link } from "react-router-dom";
 import Layout from "../Layout/Admin/Layout.Component";
-import Css from "./Index.css";
+import "./Index.css";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -38,7 +38,7 @@ export default function Index() {
     },
     {
       dataField: "bank_name",
-      text: "Bank Name",
+      text: "Bank Name12333333",
       sort: true,
     },
     {
@@ -162,8 +162,8 @@ export default function Index() {
         <Loader />
       ) : (
         <Layout>
-          <Row className="justify-content-md-center">
-            <Col md={8}>
+          <Row className="justify-content-center text-nowrap">
+            <Col xs={11} sm={10} md={8} lg={6} xl={5}>
               <Card>
                 <Card.Header>Account List</Card.Header>
                 <Card.Body>
@@ -185,13 +185,13 @@ export default function Index() {
                               <Col>
                                 <ExportCSVButton
                                   {...props.csvProps}
-                                  className="btn-outline-secondary csv-button d-block d-md-none"
+                                  className="btn-outline-secondary csv-button d-block d-sm-none"
                                 >
                                   Export CSV
                                 </ExportCSVButton>
                               </Col>
                             </Row>
-                            <Row>
+                            <Row className="mt-1">
                               <Col>
                                 <SearchBar
                                   {...props.searchProps}
@@ -205,7 +205,7 @@ export default function Index() {
                                 />
                                 <ExportCSVButton
                                   {...props.csvProps}
-                                  className="btn-outline-secondary csv-button d-none d-md-block"
+                                  className="btn-outline-secondary csv-button d-none d-sm-block"
                                 >
                                   Export CSV
                                 </ExportCSVButton>

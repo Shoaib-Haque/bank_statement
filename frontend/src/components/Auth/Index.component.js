@@ -9,6 +9,7 @@ import Badge from "react-bootstrap/Badge";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import Css from "./Index.css";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -69,13 +70,15 @@ export default function Login() {
   };
 
   return (
-    <Container fluid className="p-0 mt-5">
+    <Container className="mt-5">
       <Row className="justify-content-center">
-        <Col sm={12} md={6}>
+        <Col xs={11} sm={10} md={8} lg={6} xl={5} xxl={4} className="fs-6">
           <Card>
             <Card.Header>Login</Card.Header>
             <Card.Body>
-              <Card.Title>Please Login with Your Id and Password</Card.Title>
+              <Card.Title className="login-card-title">
+                Please Login with Your Id and Password
+              </Card.Title>
               <Form onSubmit={login}>
                 <Row>
                   <Col>
@@ -108,14 +111,15 @@ export default function Login() {
                 {typeof authError !== "undefined" && authError !== "" ? (
                   <Row>
                     <Col>
-                      <Form.Group controlId="authError" className="alert alert-danger text-black p-1 mt-1">
+                      <Form.Group
+                        controlId="authError"
+                        className="alert alert-danger text-black p-1 mt-1"
+                      >
                         <Form.Label>{authError}</Form.Label>
                       </Form.Group>
                     </Col>
                   </Row>
-                ) : (
-                  null
-                )}
+                ) : null}
                 <Button
                   variant="primary"
                   className="mt-2"

@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col";
 import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
-import Login from "./components/Auth/Login.component";
+import Login from "./components/Auth/Index.component";
 import AccountCreate from "./components/Account/Create.component";
 import Accounts from "./components/Account/Index.component";
 import Statements from "./components/Statement/Index.component";

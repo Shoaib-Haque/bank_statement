@@ -223,6 +223,7 @@ export default function Index() {
                                   striped
                                   hover
                                   condensed
+                                  wrapperClasses="table-responsive"
                                   {...props.baseProps}
                                 ></BootstrapTable>
                               </Col>

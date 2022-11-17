@@ -1,26 +1,28 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Swal from "sweetalert2";
 import { useNavigate, Link } from "react-router-dom";
+
 import Layout from "../Layout/Admin/Layout.Component";
-import Container from "react-bootstrap/Container";
+import Loader from "../Loader/Loader.component";
+
+import Swal from "sweetalert2";
+import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
+import BootstrapTable from "react-bootstrap-table-next";
+import ToolkitProvider, {Search, CSVExport} from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
+
 import Card from "react-bootstrap/Card";
 import Dropdown from "react-bootstrap/Dropdown";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
-import BootstrapTable from "react-bootstrap-table-next";
-import ToolkitProvider, {Search, CSVExport} from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
-import Loader from "../Loader/Loader.component";
 
 export default function Index() {
   const navigate = useNavigate();
+  const [TITLE, setTitle] = useState("");
   const token = localStorage.getItem("authToken");
   const [loading, setLoading] = useState(false);
+
   const [list, setList] = useState([]);
-  const { SearchBar, ClearSearchButton } = Search;
-  const { ExportCSVButton } = CSVExport;
   const columns = [
     {
       dataField: "sl.no",
@@ -84,6 +86,12 @@ export default function Index() {
       },
     },
   ];
+  const { SearchBar, ClearSearchButton } = Search;
+  const { ExportCSVButton } = CSVExport;
+
+  useEffect(() => {
+    index();
+  }, []);
 
   const index = async () => {
     setLoading(true);
@@ -93,6 +101,7 @@ export default function Index() {
       })
       .then(({ data }) => {
         setList(data);
+        setTitle("Account List");
       })
       .catch(({ response }) => {
         console.log(response.data);
@@ -108,10 +117,6 @@ export default function Index() {
       });
     setLoading(false);
   };
-
-  useEffect(() => {
-    index();
-  }, []);
 
   const destroy = async (id) => {
     const isConfirm = await Swal.fire({
@@ -156,11 +161,11 @@ export default function Index() {
   };
 
   return (
-    <Container fluid className="p-0">
+    <>
       {loading ? (
         <Loader />
       ) : (
-        <Layout>
+        <Layout TITLE={TITLE}>
           <Row className="justify-content-center text-nowrap">
             <Col xs={11} sm={10} md={8} lg={6} xl={5}>
               <Card>
@@ -237,6 +242,6 @@ export default function Index() {
           </Row>
         </Layout>
       )}
-    </Container>
+    </>
   );
 }

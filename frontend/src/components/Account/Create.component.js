@@ -1,32 +1,34 @@
 import React, { useEffect, useState } from "react";
-import { Helmet } from 'react-helmet';
-import Layout from "../Layout/Admin/Layout.Component";
 import axios from "axios";
-import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import Layout from "../Layout/Admin/Layout.Component";
+import NotFound from "../Error/Error_404.Component";
+
+import Swal from "sweetalert2";
+
+import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/Container";
-import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
-import NotFound from "../Error/Error_404.Component";
 
 export default function Create() {
   const navigate = useNavigate();
-  const [TITLE, setTitle] = useState("");
+  const [TITLE, setTitle] = useState("Create Account");
   const token = localStorage.getItem("authToken");
+  const [loading, setLoading] = useState(false);
   const { id } = useParams();
+
   const [bank_id, setBankId] = useState("");
   const [bank_name, setBankName] = useState("");
   const [password, setPassword] = useState("");
   const [validationError, setValidationError] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [notFound, setNotFound] = useState("");
+
   const [button_text, setButtonText] = useState("Create");
   const [card_header, setCardHeader] = useState("Create an Account");
   const [card_title, setCardTitle] = useState("Fill the Form");
-  const [notFound, setNotFound] = useState("");
 
   useEffect(() => {
     if (typeof id !== "undefined") {
@@ -103,39 +105,90 @@ export default function Create() {
   };
 
   return (
-    <Container fluid className="p-0">
+    <>
       {loading ? (
-        <Helmet>
-          <title>{ TITLE }</title>
-        </Helmet>
+        <></>
       ) : (
         <Layout TITLE={TITLE}>
-          <Row className="justify-content-center">
-              {bank_id || notFound === "" ? (
-                <Col xs={10} sm={8} md={6} lg={5} xl={4}>
-                  <Card>
-                    <Card.Header>{card_header}</Card.Header>
-                    <Card.Body>
-                      <Card.Title>{card_title}</Card.Title>
-                      <Form onSubmit={create}>
+          {bank_id || notFound === "" ? (
+            <Row className="justify-content-center">
+              <Col xs={10} sm={8} md={6} lg={5} xl={4}>
+                <Card>
+                  <Card.Header>{card_header}</Card.Header>
+                  <Card.Body>
+                    <Card.Title>{card_title}</Card.Title>
+                    <Form onSubmit={create}>
+                      <Row>
+                        <Col>
+                          <Form.Group controlId="bank_id">
+                            <Form.Label>Bank Id</Form.Label>
+                            <Form.Control
+                              type="text"
+                              value={bank_id}
+                              onChange={(event) => {
+                                setBankId(event.target.value);
+                              }}
+                            />
+                          </Form.Group>
+                          {typeof validationError.bank_id !== "undefined" &&
+                          validationError.bank_id !== "" ? (
+                            <Row>
+                              <Col>
+                                <Alert variant="danger p-2">
+                                  {validationError.bank_id}
+                                </Alert>
+                              </Col>
+                            </Row>
+                          ) : (
+                            ""
+                          )}
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <Form.Group controlId="bank_name">
+                            <Form.Label>Bank Name</Form.Label>
+                            <Form.Control
+                              type="text"
+                              value={bank_name}
+                              onChange={(event) => {
+                                setBankName(event.target.value);
+                              }}
+                            />
+                          </Form.Group>
+                          {typeof validationError.bank_name !== "undefined" &&
+                          validationError.bank_name !== "" ? (
+                            <Row>
+                              <Col>
+                                <Alert variant="danger p-2">
+                                  {validationError.bank_name}
+                                </Alert>
+                              </Col>
+                            </Row>
+                          ) : (
+                            ""
+                          )}
+                        </Col>
+                      </Row>
+                      {typeof id === "undefined" ? (
                         <Row>
                           <Col>
-                            <Form.Group controlId="bank_id">
-                              <Form.Label>Bank Id</Form.Label>
+                            <Form.Group controlId="Password">
+                              <Form.Label>Password</Form.Label>
                               <Form.Control
-                                type="text"
-                                value={bank_id}
+                                type="password"
+                                value={password}
                                 onChange={(event) => {
-                                  setBankId(event.target.value);
+                                  setPassword(event.target.value);
                                 }}
                               />
                             </Form.Group>
-                            {typeof validationError.bank_id !== "undefined" &&
-                            validationError.bank_id !== "" ? (
+                            {typeof validationError.password !== "undefined" &&
+                            validationError.password !== "" ? (
                               <Row>
                                 <Col>
                                   <Alert variant="danger p-2">
-                                    {validationError.bank_id}
+                                    {validationError.password}
                                   </Alert>
                                 </Col>
                               </Row>
@@ -144,85 +197,32 @@ export default function Create() {
                             )}
                           </Col>
                         </Row>
-                        <Row>
-                          <Col>
-                            <Form.Group controlId="bank_name">
-                              <Form.Label>Bank Name</Form.Label>
-                              <Form.Control
-                                type="text"
-                                value={bank_name}
-                                onChange={(event) => {
-                                  setBankName(event.target.value);
-                                }}
-                              />
-                            </Form.Group>
-                            {typeof validationError.bank_name !== "undefined" &&
-                            validationError.bank_name !== "" ? (
-                              <Row>
-                                <Col>
-                                  <Alert variant="danger p-2">
-                                    {validationError.bank_name}
-                                  </Alert>
-                                </Col>
-                              </Row>
-                            ) : (
-                              ""
-                            )}
-                          </Col>
-                        </Row>
-                        {typeof id === "undefined" ? (
-                          <Row>
-                            <Col>
-                              <Form.Group controlId="Password">
-                                <Form.Label>Password</Form.Label>
-                                <Form.Control
-                                  type="password"
-                                  value={password}
-                                  onChange={(event) => {
-                                    setPassword(event.target.value);
-                                  }}
-                                />
-                              </Form.Group>
-                              {typeof validationError.password !== "undefined" &&
-                              validationError.password !== "" ? (
-                                <Row>
-                                  <Col>
-                                    <Alert variant="danger p-2">
-                                      {validationError.password}
-                                    </Alert>
-                                  </Col>
-                                </Row>
-                              ) : (
-                                ""
-                              )}
-                            </Col>
-                          </Row>
-                        ) : (
-                          ""
-                        )}
-                        <Row>
-                          <Col sm={10}>
-                            <Button
-                              variant="primary"
-                              className="mt-2"
-                              size="lg"
-                              block="block"
-                              type="submit"
-                            >
-                              {button_text}
-                            </Button>
-                          </Col>
-                        </Row>
-                      </Form>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              ) : (
-                <NotFound notFound={notFound} />
-              )}
-          </Row>
+                      ) : (
+                        ""
+                      )}
+                      <Row>
+                        <Col sm={10}>
+                          <Button
+                            variant="primary"
+                            className="mt-2"
+                            size="lg"
+                            block="block"
+                            type="submit"
+                          >
+                            {button_text}
+                          </Button>
+                        </Col>
+                      </Row>
+                    </Form>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+          ) : (
+            <NotFound notFound={notFound} />
+          )}
         </Layout>
       )}
-    </Container>
+    </>
   );
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Particular;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Particulars;
+use Egulias\EmailValidator\Parser\PartParser;
 
 class ParticularController extends Controller
 {
@@ -63,10 +64,22 @@ class ParticularController extends Controller
      */
     public function show($id)
     {
-        $Particulars = Particulars::find($id);
-        return response()->json([
-            'Particulars' => $Particulars
-        ]);
+        try {
+            $particulars = Particulars::find($id);
+            if ($particulars) {
+                return response()->json([
+                    'particulars' => $particulars
+                ]);
+            }
+            return response()->json([
+                'message' => 'Record not found!!'
+            ], 404);
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            return response()->json([
+                'message' => 'Something went wrong!!'
+            ], 500);
+        }
     }
 
 

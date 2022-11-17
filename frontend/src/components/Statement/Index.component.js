@@ -22,6 +22,8 @@ export default function Index() {
   const token = localStorage.getItem("authToken");
   const [loading, setLoading] = useState(false);
 
+  let credit_amount = 0;
+  let debit_amount = 0;
   const [list, setList] = useState([]);
   const columns = [
     {
@@ -33,14 +35,30 @@ export default function Index() {
       },
     },
     {
-      dataField: "bank_id",
-      text: "Bank ID",
-      sort: true,
+      dataField: "date",
+      text: "Date",
     },
     {
       dataField: "amount",
-      text: "Amount",
-      sort: true,
+      text: "Credit",
+      formatter: (rowContent, row) => {
+        add(row.entry, row.amount);
+        return row.entry === "Credit" ? row.amount : '';
+      },
+    },
+    {
+      dataField: "amount",
+      text: "Debit",
+      formatter: (rowContent, row) => {
+        return row.entry === "Debit" ? row.amount : '';
+      },
+    },
+    {
+      dataField: "amount",
+      text: "Running",
+      formatter: (rowContent, row) => {
+        return credit_amount - debit_amount;
+      },
     },
     {
       dataField: "link",
@@ -117,6 +135,15 @@ export default function Index() {
         }
       });
     setLoading(false);
+  };
+
+  const add = async (entry, amount) => {
+    console.log(entry, amount);
+    if(entry === 'Credit') {
+      credit_amount += amount;
+    } else {
+      debit_amount += amount;
+    }
   };
 
   const destroy = async (id) => {

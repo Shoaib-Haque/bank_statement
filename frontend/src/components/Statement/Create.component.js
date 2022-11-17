@@ -165,7 +165,7 @@ export default function Create() {
                           <Form.Group controlId="amount">
                             <Form.Label>Amount</Form.Label>
                             <Form.Control
-                              type="text"
+                              type="number"
                               value={amount}
                               onChange={(event) => {
                                 setAmount(event.target.value);

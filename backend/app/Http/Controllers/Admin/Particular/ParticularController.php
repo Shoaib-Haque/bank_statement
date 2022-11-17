@@ -5,12 +5,11 @@ namespace App\Http\Controllers\Admin\Particular;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Particulars;
-use Egulias\EmailValidator\Parser\PartParser;
 
 class ParticularController extends Controller
 {
     /**
-     * Create a new ParticularsController instance.
+     * Create a new ParticularController instance.
      *
      * @return void
      */

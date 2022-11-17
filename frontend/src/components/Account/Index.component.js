@@ -169,7 +169,23 @@ export default function Index() {
           <Row className="justify-content-center text-nowrap">
             <Col xs={11} sm={10} md={8} lg={6} xl={5}>
               <Card>
-                <Card.Header>Account List</Card.Header>
+                <Card.Header>
+                  <Row>
+                    <Col>Account List</Col>
+                    <Col className="d-flex justify-content-end">
+                      <Link to={`/accounts/create`}>
+                        <Button
+                          type="button"
+                          variant="primary"
+                          size="sm"
+                          className="btn btn-block button"
+                        >
+                          Create
+                        </Button>
+                      </Link>
+                    </Col>
+                  </Row>
+                </Card.Header>
                 <Card.Body>
                   {list.length ? (
                     <ToolkitProvider

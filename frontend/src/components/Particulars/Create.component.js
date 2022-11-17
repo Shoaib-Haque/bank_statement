@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import Layout from "../Layout/Admin/Layout.Component";
 import NotFound from "../Error/Error_404.Component";
 
@@ -110,7 +110,23 @@ export default function Create() {
             <Row className="justify-content-center">
               <Col xs={10} sm={8} md={6} lg={5} xl={4}>
                 <Card>
-                  <Card.Header>{card_header}</Card.Header>
+                  <Card.Header>
+                    <Row>
+                      <Col>{card_header}</Col>
+                      <Col className="d-flex justify-content-end">
+                        <Link to={`/particulars`}>
+                          <Button
+                            type="button"
+                            variant="primary"
+                            size="sm"
+                            className="btn btn-block button"
+                          >
+                            Go Back
+                          </Button>
+                        </Link>
+                      </Col>
+                    </Row>
+                  </Card.Header>
                   <Card.Body>
                     <Card.Title>{card_title}</Card.Title>
                     <Form onSubmit={create}>

@@ -1,11 +1,12 @@
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -41,7 +42,9 @@ const Navigation = () => {
           <Nav className="me-auto">
             <NavDropdown title="Action" id="basic-nav-dropdown">
               <NavDropdown.Item href="/accounts">Accounts</NavDropdown.Item>
-              <NavDropdown.Item href="/particulars">Particulars</NavDropdown.Item>
+              <NavDropdown.Item href="/particulars">
+                Particulars
+              </NavDropdown.Item>
             </NavDropdown>
           </Nav>
           <Form inline>

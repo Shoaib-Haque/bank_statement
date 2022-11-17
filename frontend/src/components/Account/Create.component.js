@@ -112,7 +112,7 @@ export default function Create() {
         <Layout TITLE={TITLE}>
           <Row className="justify-content-center">
               {bank_id || notFound === "" ? (
-                <Col xs={10} sm={8} md={6} xl={5}>
+                <Col xs={10} sm={8} md={6} lg={5} xl={4}>
                   <Card>
                     <Card.Header>{card_header}</Card.Header>
                     <Card.Body>

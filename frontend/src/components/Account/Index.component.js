@@ -37,7 +37,7 @@ export default function Index() {
     },
     {
       dataField: "bank_name",
-      text: "Bank Name12333333",
+      text: "Bank Name",
       sort: true,
     },
     {

@@ -1,8 +1,8 @@
-.buttons_dropdown {
+.buttons-dropdown {
   width: 100%;
   table-layout: fixed;
 }
-.buttons_dropdown button {
+.buttons-dropdown button {
   width: 100%;
 }
 .search-bar:focus {
@@ -10,9 +10,9 @@
   box-shadow: none;
 }
 
-@media only screen and (max-width: 350px) {
+@media only screen and (min-width: 350px) {
   .csv-button {
-    float: left;
+    float: right;
   }
 }
 .dropdown-menu-action {

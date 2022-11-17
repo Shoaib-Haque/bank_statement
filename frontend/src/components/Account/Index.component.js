@@ -3,7 +3,6 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate, Link } from "react-router-dom";
 import Layout from "../Layout/Admin/Layout.Component";
-import "./Index.css";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -47,7 +46,7 @@ export default function Index() {
       csvExport: false,
       formatter: (rowContent, row) => {
         return (
-          <Dropdown className="buttons_dropdown">
+          <Dropdown className="buttons-dropdown">
             <Dropdown.Toggle
               variant="default"
               id="dropdown-basic"
@@ -185,7 +184,7 @@ export default function Index() {
                               <Col>
                                 <ExportCSVButton
                                   {...props.csvProps}
-                                  className="btn-outline-secondary csv-button d-block d-sm-none"
+                                  className="btn-outline-secondary d-block d-sm-none csv-button"
                                 >
                                   Export CSV
                                 </ExportCSVButton>
@@ -205,7 +204,7 @@ export default function Index() {
                                 />
                                 <ExportCSVButton
                                   {...props.csvProps}
-                                  className="btn-outline-secondary csv-button d-none d-sm-block"
+                                  className="btn-outline-secondary d-none d-sm-block csv-button"
                                 >
                                   Export CSV
                                 </ExportCSVButton>

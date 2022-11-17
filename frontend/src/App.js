@@ -6,16 +6,17 @@ import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 import Login from "./components/Auth/Index.component";
-import AccountCreate from "./components/Account/Create.component";
 import Accounts from "./components/Account/Index.component";
+import AccountCreate from "./components/Account/Create.component";
 import Statements from "./components/Statement/Index.component";
+import StatementCreate from "./components/Statement/Create.component";
 import Particulars from "./components/Particulars/Index.component";
 import ParticularsCreate from "./components/Particulars/Create.component";
 
 function App() {
   return (
     <Router>
-      <Container fluid className='p-0'>
+      <Container fluid className="p-0">
         <Row>
           <Col>
             <Routes>
@@ -60,6 +61,22 @@ function App() {
                 element={
                   <AccountProtectedRoute>
                     <Statements />
+                  </AccountProtectedRoute>
+                }
+              />
+              <Route
+                path="/statements/create"
+                element={
+                  <AccountProtectedRoute>
+                    <StatementCreate />
+                  </AccountProtectedRoute>
+                }
+              />
+              <Route
+                path="/statements/:id/edit"
+                element={
+                  <AccountProtectedRoute>
+                    <StatementCreate />
                   </AccountProtectedRoute>
                 }
               />

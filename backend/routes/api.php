@@ -9,6 +9,9 @@ use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Admin\Account\AccountController as AdminAccountController;
 // Particulars
 use App\Http\Controllers\Admin\Particular\ParticularController as AdminParticularController;
+use App\Http\Controllers\Account\Particular\ParticularController as AccountParticularController;
+// Statements
+use App\Http\Controllers\Account\Statement\StatementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,12 +28,30 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['middleware' => 'account','prefix' => 'account'],
-    function ($router) {
-        Route::post('/login', [AccountAuthController::class, 'login']);
-        Route::post('/logout', [AccountAuthController::class, 'logout']);
-        Route::get('/account-profile', [AccountAuthController::class, 'accountProfile']);
-    }
+Route::group(['middleware' => 'account'],
+    Route::group(['prefix' => 'account'],
+        function ($router) {
+            Route::post('/login', [AccountAuthController::class, 'login']);
+            Route::post('/logout', [AccountAuthController::class, 'logout']);
+            Route::get('/account-profile', [AccountAuthController::class, 'accountProfile']);
+        }
+    ),
+    Route::group(
+        ['prefix' => 'particulars'],
+        function ($router) {
+            Route::get('/list', [AccountParticularController::class, 'index']);
+        }
+    ),
+    Route::group(
+        ['prefix' => 'statements'],
+        function ($router) {
+            Route::get('/', [StatementController::class, 'index']);
+            Route::post('/', [StatementController::class, 'create']);
+            Route::get('/{id}', [StatementController::class, 'show']);
+            Route::post('/{id}/edit', [StatementController::class, 'update']);
+            Route::delete('/{id}', [StatementController::class, 'destroy']);
+        }
+    )
 );
 
 Route::group(['middleware' => 'admin', 'prefix' => 'admin'],

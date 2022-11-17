@@ -17,7 +17,7 @@ function App() {
     <Router>
       <Container fluid className='p-0'>
         <Row>
-          <Col md={12}>
+          <Col>
             <Routes>
               <Route path="/" element={<Navigate replace to="/login" />} />
               {/* Auth */}

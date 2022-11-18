@@ -34,49 +34,6 @@ export default function Index() {
     {
       dataField: "user_name",
     },
-    // {
-    //   dataField: "link",
-    //   text: "ACTION",
-    //   csvExport: false,
-    //   formatter: (rowContent, row) => {
-    //     return (
-    //       <Dropdown className="buttons-dropdown">
-    //         <Dropdown.Toggle
-    //           variant="default"
-    //           id="dropdown-basic"
-    //           className="pt-0"
-    //         >
-    //           Action
-    //         </Dropdown.Toggle>
-    //         <Dropdown.Menu className="dropdown-menu-action">
-    //           <Dropdown.Item>
-    //             <Link to={`/accounts/${row.id}/edit`}>
-    //               <Button
-    //                 type="button"
-    //                 variant="success"
-    //                 size="sm"
-    //                 className="btn btn-block button"
-    //               >
-    //                 Edit
-    //               </Button>
-    //             </Link>
-    //           </Dropdown.Item>
-    //           <Dropdown.Item>
-    //             <Button
-    //               type="button"
-    //               variant="danger"
-    //               size="sm"
-    //               className="btn btn-block button"
-    //               onClick={() => destroy(row.id)}
-    //             >
-    //               Delete
-    //             </Button>
-    //           </Dropdown.Item>
-    //         </Dropdown.Menu>
-    //       </Dropdown>
-    //     );
-    //   },
-    // },
   ];
   const { SearchBar, ClearSearchButton } = Search;
   const { ExportCSVButton } = CSVExport;
@@ -110,9 +67,40 @@ export default function Index() {
     setLoading(false);
   };
 
+  const send = async (e) => {
+    e.preventDefault();
+    console.log("ola");
+    const formData = new FormData();
+    formData.append("receiver_id", receiver_id);
+    formData.append("message", message);
+    const token = localStorage.getItem("authToken");
+    var api =  `${process.env.REACT_APP_API_BASE_URL}messages`;
+
+    await axios
+      .post(api, formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(({ data }) => {
+        
+      })
+      .catch(({ response }) => {
+        console.log(response.data);
+        if (response.status === 422) {
+          setValidationError(response.data.errors);
+        } else if (response.status === 401) {
+          localStorage.clear();
+          navigate("/login");
+        } else {
+          Swal.fire({
+            text: response.data.message,
+            icon: "error",
+          });
+        }
+      });
+  };
+
   const rowEvents = {
   onClick: (e, row, rowIndex) => {
-      console.log(row);
       setReceiverId(row.id);
       setReceiverName(row.user_name);
       setMessage("");
@@ -189,7 +177,7 @@ export default function Index() {
                       <Card.Header>{receiver_name}</Card.Header>
                       <Card.Body></Card.Body>
                       <Card.Footer>
-                        <Form>
+                        <Form onSubmit={send}>
                           <Form.Group className="mb-3" controlId="text">
                             <Form.Control
                               as="textarea"
@@ -202,7 +190,7 @@ export default function Index() {
                             />
                           </Form.Group>
                           <Button
-                            type="button"
+                            type="submit"
                             variant="primary"
                             size="sm"
                             className="btn btn-block button"

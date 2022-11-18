@@ -1,5 +1,6 @@
 <?php
 
+use Ably\Models\Stats\MessageCount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 // Auth
@@ -15,6 +16,8 @@ use App\Http\Controllers\Account\Particular\ParticularController as AccountParti
 use App\Http\Controllers\Account\Statement\StatementController;
 // Users
 use App\Http\Controllers\User\User\UserController;
+// Messages
+use App\Http\Controllers\User\Message\MessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -98,6 +101,11 @@ Route::group(['middleware' => 'user'],
     Route::group(['prefix' => 'users'],
         function ($router) {
             Route::get('/', [UserController::class, 'index']);
+        }
+    ),
+    Route::group(['prefix' => 'messages'],
+        function ($router) {
+            Route::post('/', [MessageController::class, 'create']);
         }
     ),
 );

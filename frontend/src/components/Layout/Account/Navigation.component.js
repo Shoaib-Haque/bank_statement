@@ -41,8 +41,7 @@ const Navigation = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <NavDropdown title="Action" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/statements">Accounts</NavDropdown.Item>
-              <NavDropdown.Item href="/particulars">Particulars</NavDropdown.Item>
+              <NavDropdown.Item href="/statements">Statement List</NavDropdown.Item>
             </NavDropdown>
           </Nav>
           <Form inline>

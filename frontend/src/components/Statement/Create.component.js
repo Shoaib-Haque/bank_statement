@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import Layout from "../Layout/Admin/Layout.Component";
+import Layout from "../Layout/Account/Layout.Component";
 import NotFound from "../Error/Error_404.Component";
 
 import Swal from "sweetalert2";

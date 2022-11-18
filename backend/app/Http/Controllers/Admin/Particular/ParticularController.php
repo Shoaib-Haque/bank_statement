@@ -26,7 +26,9 @@ class ParticularController extends Controller
      */
     public function index()
     {
-        return Particulars::select('*')->get();
+        return Particulars::select('*')
+                ->orderBy('particulars')
+                ->get();
     }
 
     /**

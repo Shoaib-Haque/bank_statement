@@ -33,7 +33,7 @@ Route::group(['middleware' => 'account'],
         function ($router) {
             Route::post('/login', [AccountAuthController::class, 'login']);
             Route::post('/logout', [AccountAuthController::class, 'logout']);
-            Route::get('/account-profile', [AccountAuthController::class, 'accountProfile']);
+            Route::get('/', [AccountAuthController::class, 'index']);
         }
     ),
     Route::group(

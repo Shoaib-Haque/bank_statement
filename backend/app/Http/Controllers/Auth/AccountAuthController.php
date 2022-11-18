@@ -53,7 +53,7 @@ class AccountAuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function accountProfile()
+    public function index()
     {
         return response()->json(auth()->user());
     }

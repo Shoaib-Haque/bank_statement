@@ -55,6 +55,26 @@ export default function Login() {
         }
       })
       .catch(({ response }) => {
+        userLogin();
+      });
+  };
+
+  const userLogin = async () => {
+    setAuthError("");
+    setValidationError({});
+    const formData = new FormData();
+    formData.append("email", bank_id);
+    formData.append("password", password);
+    await axios
+      .post(`${process.env.REACT_APP_API_BASE_URL}user/login`, formData)
+      .then(({ data }) => {
+        if (data.access_token !== "undefined" && data.access_token !== "") {
+          localStorage.setItem("authToken", data.access_token);
+          localStorage.setItem("role", "user");
+          navigate("/dashboard");
+        }
+      })
+      .catch(({ response }) => {
         console.log(response);
         if (response.status === 422) {
           setValidationError(response.data);

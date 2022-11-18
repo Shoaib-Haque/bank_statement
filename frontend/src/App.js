@@ -12,6 +12,7 @@ import Statements from "./components/Statement/Index.component";
 import StatementCreate from "./components/Statement/Create.component";
 import Particulars from "./components/Particulars/Index.component";
 import ParticularsCreate from "./components/Particulars/Create.component";
+import Dashboard from "./components/Dashboard/Index.component";
 
 function App() {
   return (
@@ -105,6 +106,15 @@ function App() {
                   </AdminProtectedRoute>
                 }
               />
+              {/* Dashboard */}
+              <Route
+                path="/dashboard"
+                element={
+                  <UserProtectedRoute>
+                    <Dashboard />
+                  </UserProtectedRoute>
+                }
+              />
             </Routes>
           </Col>
         </Row>
@@ -126,6 +136,11 @@ function AdminProtectedRoute({ children }) {
 function AccountProtectedRoute({ children }) {
   let isAuthenticated = getAuth();
   return isAuthenticated ? getRole() === "account" ? children : <Navigate to='/accounts' /> : <Navigate to='/login' />;
+}
+
+function UserProtectedRoute({ children }) {
+  let isAuthenticated = getAuth();
+  return isAuthenticated ? getRole() === "user" ? children : <Navigate to='/dashboard' /> : <Navigate to='/login' />;
 }
 
 function getAuth() {

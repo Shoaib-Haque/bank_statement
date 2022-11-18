@@ -54,30 +54,33 @@ Route::group(['middleware' => 'account'],
     )
 );
 
-Route::group(['middleware' => 'admin', 'prefix' => 'admin'],
-    function ($router) {
-        Route::post('/login', [AdminAuthController::class, 'login']);
-        Route::post('/logout', [AdminAuthController::class, 'logout']);
-        Route::get('/particulars', [ParticularController::class, 'index']);
-    }
-);
-
-Route::group(['middleware' => 'admin', 'prefix' => 'accounts'],
-    function ($router) {
-        Route::get('/', [AdminAccountController::class, 'index']);
-        Route::post('/', [AdminAccountController::class, 'create']);
-        Route::get('/{id}', [AdminAccountController::class, 'show']);
-        Route::post('/{id}/edit', [AdminAccountController::class, 'update']);
-        Route::delete('/{id}', [AdminAccountController::class, 'destroy']);
-    }
-);
-
-Route::group(['middleware' => 'admin', 'prefix' => 'particulars'],
-    function ($router) {
-        Route::get('/', [AdminParticularController::class, 'index']);
-        Route::post('/', [AdminParticularController::class, 'create']);
-        Route::get('/{id}', [AdminParticularController::class, 'show']);
-        Route::post('/{id}/edit', [AdminParticularController::class, 'update']);
-        Route::delete('/{id}', [AdminParticularController::class, 'destroy']);
-    }
+Route::group(['middleware' => 'admin'],
+    Route::group(
+        ['prefix' => 'admin'],
+        function ($router) {
+            Route::post('/login', [AdminAuthController::class, 'login']);
+            Route::post('/logout', [AdminAuthController::class, 'logout']);
+            Route::get('/particulars', [ParticularController::class, 'index']);
+        }
+    ),
+    Route::group(
+        ['prefix' => 'accounts'],
+        function ($router) {
+            Route::get('/', [AdminAccountController::class, 'index']);
+            Route::post('/', [AdminAccountController::class, 'create']);
+            Route::get('/{id}', [AdminAccountController::class, 'show']);
+            Route::post('/{id}/edit', [AdminAccountController::class, 'update']);
+            Route::delete('/{id}', [AdminAccountController::class, 'destroy']);
+        }
+    ),
+    Route::group(
+        ['prefix' => 'particulars'],
+        function ($router) {
+            Route::get('/', [AdminParticularController::class, 'index']);
+            Route::post('/', [AdminParticularController::class, 'create']);
+            Route::get('/{id}', [AdminParticularController::class, 'show']);
+            Route::post('/{id}/edit', [AdminParticularController::class, 'update']);
+            Route::delete('/{id}', [AdminParticularController::class, 'destroy']);
+        }
+    ),
 );

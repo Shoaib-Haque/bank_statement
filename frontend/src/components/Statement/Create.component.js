@@ -38,7 +38,7 @@ export default function Create() {
       setLoading(true);
       show();
       setButtonText("Save");
-      setCardHeader("Update Statement Information");
+      setCardHeader("Update Statement");
       setCardTitle("Statement Information");
     }
   }, []);

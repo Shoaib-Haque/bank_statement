@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 // Auth
 use App\Http\Controllers\Auth\AccountAuthController;
 use App\Http\Controllers\Auth\AdminAuthController;
+use App\Http\Controllers\Auth\UserAuthController;
 // Account
 use App\Http\Controllers\Admin\Account\AccountController as AdminAccountController;
 // Particulars
@@ -12,6 +13,8 @@ use App\Http\Controllers\Admin\Particular\ParticularController as AdminParticula
 use App\Http\Controllers\Account\Particular\ParticularController as AccountParticularController;
 // Statements
 use App\Http\Controllers\Account\Statement\StatementController;
+// Users
+use App\Http\Controllers\User\User\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,6 +84,20 @@ Route::group(['middleware' => 'admin'],
             Route::get('/{id}', [AdminParticularController::class, 'show']);
             Route::post('/{id}/edit', [AdminParticularController::class, 'update']);
             Route::delete('/{id}', [AdminParticularController::class, 'destroy']);
+        }
+    ),
+);
+
+Route::group(['middleware' => 'user'],
+    Route::group(['prefix' => 'user'],
+        function ($router) {
+            Route::post('/login', [UserAuthController::class, 'login']);
+            Route::post('/logout', [UserAuthController::class, 'logout']);
+        }
+    ),
+    Route::group(['prefix' => 'users'],
+        function ($router) {
+            Route::get('/', [UserController::class, 'index']);
         }
     ),
 );

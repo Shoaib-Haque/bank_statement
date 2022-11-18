@@ -31,6 +31,7 @@ class StatementController extends Controller
     {
         return Statements::from('statements AS s')
                 ->leftJoin('particulars as p', 'p.id', '=', 's.particulars_id')
+                ->where('bank_id', '=', auth()->user()->bank_id)
                 ->select('s.*', 'p.particulars')
                 ->orderBy('s.date')
                 ->get();

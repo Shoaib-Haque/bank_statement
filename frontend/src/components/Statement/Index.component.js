@@ -21,6 +21,8 @@ export default function Index() {
   const [TITLE, setTitle] = useState("");
   const token = localStorage.getItem("authToken");
   const [loading, setLoading] = useState(false);
+  const [cr_amount, setCreditAmount] = useState("0");
+  const [de_amount, setDebitAmount] = useState("0");
 
   let credit_amount = 0;
   let debit_amount = 0;
@@ -30,6 +32,7 @@ export default function Index() {
       dataField: "sl.no",
       text: "#",
       csvExport: false,
+      footer: "",
       formatter: (cell, row, rowIndex, formatExtraData) => {
         return rowIndex + 1;
       },
@@ -37,33 +40,52 @@ export default function Index() {
     {
       dataField: "date",
       text: "Date",
+      footer: "",
     },
     {
-      dataField: "amount",
+      dataField: "particulars",
+      text: "Particulars",
+      footer: "",
+    },
+    {
       text: "Credit",
+      footer: cr_amount,
       formatter: (rowContent, row) => {
         add(row.entry, row.amount);
-        return row.entry === "Credit" ? row.amount : '';
+        return row.entry === "Credit" ? row.amount : "";
+      },
+      csvFormatter: (rowContent, row) => {
+        add(row.entry, row.amount);
+        return row.entry === "Credit" ? row.amount : "";
       },
     },
     {
-      dataField: "amount",
       text: "Debit",
+      footer: de_amount,
       formatter: (rowContent, row) => {
-        return row.entry === "Debit" ? row.amount : '';
+        return row.entry === "Debit" ? row.amount : "";
+      },
+      csvFormatter: (rowContent, row) => {
+        return row.entry === "Debit" ? row.amount : "";
       },
     },
     {
-      dataField: "amount",
       text: "Running",
+      footer: "",
+      csvExport: false,
       formatter: (rowContent, row) => {
         return credit_amount - debit_amount;
       },
+      // csvFormatter: (rowContent, row) => {
+      //   return credit_amount - debit_amount;
+      // },
     },
     {
       dataField: "link",
       text: "ACTION",
+      headerAlign: "center",
       csvExport: false,
+      footer: "",
       formatter: (rowContent, row) => {
         return (
           <Dropdown className="buttons-dropdown">
@@ -93,7 +115,7 @@ export default function Index() {
                   variant="danger"
                   size="sm"
                   className="btn btn-block button"
-                  onClick={() => destroy(row.id)}
+                  onClick={() => destroy(row.id, row.entry, row.amount)}
                 >
                   Delete
                 </Button>
@@ -137,16 +159,7 @@ export default function Index() {
     setLoading(false);
   };
 
-  const add = async (entry, amount) => {
-    console.log(entry, amount);
-    if(entry === 'Credit') {
-      credit_amount += amount;
-    } else {
-      debit_amount += amount;
-    }
-  };
-
-  const destroy = async (id) => {
+  const destroy = async (id, entry, amount) => {
     const isConfirm = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -164,7 +177,7 @@ export default function Index() {
     }
 
     await axios
-      .delete(`${process.env.REACT_APP_API_BASE_URL}Statements/${id}`, {
+      .delete(`${process.env.REACT_APP_API_BASE_URL}statements/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(({ data }) => {
@@ -173,6 +186,13 @@ export default function Index() {
           icon: "success",
         });
         setList((list) => list.filter((item, i) => item.id !== id));
+        if (entry === "Credit") {
+          credit_amount -= amount;
+          setCreditAmount(credit_amount.toString());
+        } else {
+          debit_amount -= amount;
+          setDebitAmount(debit_amount.toString());
+        }
       })
       .catch(({ response }) => {
         console.log(response.data);
@@ -188,6 +208,16 @@ export default function Index() {
       });
   };
 
+  const add = async (entry, amount) => {
+    if (entry === "Credit") {
+      credit_amount += amount;
+      setCreditAmount(credit_amount.toString());
+    } else {
+      debit_amount += amount;
+      setDebitAmount(debit_amount.toString());
+    }
+  };
+
   return (
     <>
       {loading ? (
@@ -195,7 +225,7 @@ export default function Index() {
       ) : (
         <Layout TITLE={TITLE}>
           <Row className="justify-content-center text-nowrap">
-            <Col xs={11} sm={10} md={8} lg={6} xl={5}>
+            <Col md={10} lg={8} xl={7}>
               <Card>
                 <Card.Header>
                   <Row>
@@ -222,6 +252,9 @@ export default function Index() {
                       columns={columns}
                       search
                       bootstrap4
+                      exportCSV={{
+                        ignoreFooter: false,
+                      }}
                     >
                       {(props) => (
                         <Row>

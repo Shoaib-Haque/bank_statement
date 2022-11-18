@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Account\Statement;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Statements;
+use App\Models\Particulars;
 use Exception;
 use Illuminate\Validation\Rule;
 
@@ -28,7 +29,11 @@ class StatementController extends Controller
      */
     public function index()
     {
-        return Statements::select('*')->get();
+        return Statements::from('statements AS s')
+                ->leftJoin('particulars as p', 'p.id', '=', 's.particulars_id')
+                ->select('s.*', 'p.particulars')
+                ->orderBy('s.date')
+                ->get();
     }
 
     /**

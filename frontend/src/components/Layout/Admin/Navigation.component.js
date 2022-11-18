@@ -36,7 +36,7 @@ const Navigation = () => {
   return (
     <Navbar bg="light" expand="lg" sticky="top" className="mb-2">
       <Container fluid>
-        <Navbar.Brand href="/accounts">Home</Navbar.Brand>
+        <Navbar.Brand href="/">Home</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">

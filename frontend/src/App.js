@@ -125,7 +125,16 @@ function App() {
 
 function PublicRoute({ children }) {
   let isAuthenticated = getAuth();
-  return isAuthenticated ? getRole() === "admin" ? <Navigate to='/accounts' /> : <Navigate to='/statements' /> : children;
+  if(isAuthenticated) {
+    if(getRole() === 'admin')
+      return <Navigate to='/accounts' />;
+    else if(getRole() === 'account')
+      return <Navigate to='/statements' />;
+    else if(getRole() === 'user')
+    return <Navigate to='/dashboard' />;
+  } else {
+    return children;
+  }
 }
 
 function AdminProtectedRoute({ children }) {

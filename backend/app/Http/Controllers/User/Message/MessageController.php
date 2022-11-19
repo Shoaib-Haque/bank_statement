@@ -22,23 +22,50 @@ class MessageController extends Controller
     }
 
     /**
-     * Create Statement.
+     * Get Account List
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index($receiver_id)
+    {
+        try {
+            return Message::select('*')
+                ->where(function($query) use($receiver_id) {
+                    $query->where('sender_id', '=', auth()->user()->id);
+                    $query->where('receiver_id', '=', $receiver_id);
+                })
+                ->orWhere(function($query) use($receiver_id) {
+                    $query->where('sender_id', '=', $receiver_id);
+                    $query->where('receiver_id', '=', auth()->user()->id);
+                })
+                ->orderBy('created_at', 'ASC')
+                ->get();
+        } catch(Exception $e) {
+            \Log::error($e->getMessage());
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Send Message
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function create(Request $request)
+    public function send(Request $request)
     {
         $request->validate([
             'message' => 'required',
-            'receiver_id' => 'required'
+            'receiver' => 'required'
         ]);
 
         try {
             Message::create([
                 'sender_id' => auth()->user()->id,
                 'message' => $request->message,
-                'receiver_id' => $request->receiver_id,
+                'receiver' => $request->receiver,
                 'created_at' => date('Y-m-d H:i:s'),
                 'update_at' => date('Y-m-d H:i:s')
             ]);

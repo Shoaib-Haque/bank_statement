@@ -105,7 +105,8 @@ Route::group(['middleware' => 'user'],
     ),
     Route::group(['prefix' => 'messages'],
         function ($router) {
-            Route::post('/', [MessageController::class, 'create']);
+            Route::get('/{receiver_id}', [MessageController::class, 'index']);
+            Route::post('/', [MessageController::class, 'send']);
         }
     ),
 );

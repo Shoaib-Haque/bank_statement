@@ -40,7 +40,7 @@ class MessageEvent implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'id' => Str::orderedUuid(),
+            //'id' => Str::orderedUuid(),
             'user' => $this->user,
             'message' => $this->message,
             'createdAt' => now()->toDateTimeString(),

@@ -18,6 +18,7 @@ use App\Http\Controllers\Account\Statement\StatementController;
 use App\Http\Controllers\User\User\UserController;
 // Messages
 use App\Http\Controllers\User\Message\MessageController;
+use App\Events\MessageEvent;
 
 /*
 |--------------------------------------------------------------------------
@@ -107,6 +108,7 @@ Route::group(['middleware' => 'user'],
         function ($router) {
             Route::get('/{receiver_id}', [MessageController::class, 'index']);
             Route::post('/', [MessageController::class, 'send']);
-        }
+        },
     ),
 );
+

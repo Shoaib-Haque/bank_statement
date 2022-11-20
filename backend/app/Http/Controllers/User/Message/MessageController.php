@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Message;
 use Exception;
 use Illuminate\Validation\Rule;
+use App\Events\MessageEvent;
 
 class MessageController extends Controller
 {
@@ -38,7 +39,7 @@ class MessageController extends Controller
                     $query->where('sender_id', '=', $receiver_id);
                     $query->where('receiver_id', '=', auth()->user()->id);
                 })
-                ->orderBy('created_at', 'ASC')
+                ->orderBy('created_at', 'DESC')
                 ->get();
         } catch(Exception $e) {
             \Log::error($e->getMessage());
@@ -58,17 +59,19 @@ class MessageController extends Controller
     {
         $request->validate([
             'message' => 'required',
-            'receiver' => 'required'
+            'receiver_id' => 'required'
         ]);
 
         try {
             Message::create([
                 'sender_id' => auth()->user()->id,
                 'message' => $request->message,
-                'receiver' => $request->receiver,
+                'receiver_id' => $request->receiver_id,
                 'created_at' => date('Y-m-d H:i:s'),
                 'update_at' => date('Y-m-d H:i:s')
             ]);
+
+            event(new MessageEvent($request->receiver_id, $request->message));
 
             return response()->json([
                 'message' => 'Sent!!'

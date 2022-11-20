@@ -100,6 +100,7 @@
         <li><strong>install the Ably PHP SDK</strong>composer require ably/ably-php</li>
         <li><strong>create/signin in ably</strong><a href="https://ably.com/sign-up">ably</a></li>
         <li><strong>add the ABLY_KEY</strong>goto .env and add ABLY_KEY=your-ably-key[replace with key from ably]</li>
+        <li><strong>install laravel-echo and pusher-js</strong>npm install axios laravel-echo pusher-js</li>
     </ul>
 </li>
 </ol>

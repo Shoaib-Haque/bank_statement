@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useCallback  } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
 
 import Layout from "../Layout/User/Layout.Component";
 import Loader from "../Loader/Loader.component";
@@ -37,6 +39,25 @@ export default function Index() {
 
   useEffect(() => {
     index();
+    axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL;
+    const echo = new Echo({
+      broadcaster: 'pusher',
+      key: process.env.REACT_APP_MIX_ABLY_PUBLIC_KEY,
+      wsHost: 'realtime-pusher.ably.io',
+      wsPort: 443,
+      disableStats: true,
+      encrypted: true,
+    });
+    echo
+      .channel('public.room')
+      .subscribed(() => {
+        console.log('You are subscribed');
+      })
+      .listen('.message.new', (data) => {
+      // setMessages((oldMessages) => [...oldMessages, data]);
+      // setMessage('');
+        console.log(data);
+      });
   }, []);
 
   const index = async () => {
@@ -100,7 +121,7 @@ export default function Index() {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(({ data }) => {
-        
+        console.log(data);
       })
       .catch(({ response }) => {
         console.log(response.data);
@@ -129,7 +150,6 @@ export default function Index() {
     if(!flag) {
       getChatMessages(row.id, function(response) {
         let obj = {'receiver_id' : row.id, 'receiver_name' : row.user_name, 'messages' : response};
-        console.log(obj);
         const newChatBoxes = [...chatBoxes, obj];
         setChatBoxes(newChatBoxes);
       });
@@ -224,7 +244,7 @@ export default function Index() {
                           </Col>
                         </Row>
                       </Card.Header>
-                      <Card.Body>
+                      <Card.Body className="card-body-scroll">
                       {chatBox.messages &&
                         chatBox.messages.length > 0 &&
                         chatBox.messages.map((message, messageIndex) => (

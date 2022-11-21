@@ -131,7 +131,7 @@ function PublicRoute({ children }) {
     else if(getRole() === 'account')
       return <Navigate to='/statements' />;
     else if(getRole() === 'user')
-    return <Navigate to='/dashboard' />;
+      return <Navigate to='/dashboard' />;
   } else {
     return children;
   }

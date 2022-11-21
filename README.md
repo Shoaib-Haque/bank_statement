@@ -11,7 +11,7 @@
 <h3>authentication</h3>
 <ol type="1">
     <li><strong>authentication using jwt</strong><br>
-        https://www.positronx.io/laravel-jwt-authentication-tutorial-user-login-signup-api/
+        <a href="https://www.positronx.io/laravel-jwt-authentication-tutorial-user-login-signup-api/">laravel-jwt-authentication-tutorial</a>
     </li>
     <li><strong>install jwt</strong><br>composer require -w tymon/jwt-auth --ignore-platform-reqs</li>
     <li><strong>go to config/app.php</strong><br>
@@ -96,6 +96,17 @@
         ],
         </li>
     </ul>
+    <li><strong>real-time-application-using-pusher</strong>
+        <br><a href="https://hanieasemi.medium.com/realtime-application-with-laravel-and-react-js-88bf17be4838">RealTime Application with Laravel and React.js</a>
+    </li>
+    <li><strong>install the Pusher Channels PHP SDK</strong><br>composer require pusher/pusher-php-server</li>
+    <li><strong>create app on the Pusher website</strong>
+        <br><a href="https://pusher.com/">Pusher</a>
+    </li>
+    <li><strong>change pusher credentials on .env</strong>
+        <br>PUSHER_APP_ID, PUSHER_APP_SECRET, PUSHER_APP-KEY
+    </li>
+    <li><strong>change BROADCAST_DRIVER=pusher on .env</strong></li>
 </li>
 </ol>
 
@@ -106,15 +117,25 @@
     <li><strong>run the frontend</strong><br>npm run</li>
     <li><strong>install axios</strong><br>npm install axios react-bootstrap bootstrap</li>
     <li><strong>install react-router-dom</strong><br>npm install react-router-dom sweetalert2 --save</li>
-    <li><strong>install react-bootstrap-table</strong><br>npm i react-bootstrap-table-next --legacy-peer-deps</li>
-    <li><strong>install react-bootstrap-table2-toolkit</strong><br>npm i react-bootstrap-table2-toolkit --legacy-peer-deps</li>
+    <li><strong>install react-bootstrap-table</strong>
+        <br>npm i react-bootstrap-table-next --legacy-peer-deps
+    </li>
+    <li><strong>install react-bootstrap-table2-toolkit</strong>
+        <br>npm i react-bootstrap-table2-toolkit --legacy-peer-deps
+    </li>
     <li><strong>install react-helmet</strong><br>npm install react-helmet</li>
+    <li><strong>install laravel-echo and pusher-js</strong><br>npm install laravel-echo pusher-js</li>
+    <li><strong>add pusher credentials on .env</strong>
+        <br>REACT_APP_PUSHER_API_KEY, REACT_APP_PUSHER_CLUSTER
+    </li>
 </ol>
 
 <h1>clone</h1>
 <h1>cloning</h1>
 <ol type="1">
-    <li><strong>clone repository</strong><br>git clone https://github.com/Shoaib2018/bank_statement.git</li>
+    <li><strong>clone repository</strong>
+        <br>git clone https://github.com/Shoaib2018/bank_statement.git
+    </li>
     <li><strong>change git local name and email if necessary</strong><br>
         <ul>
             <li>git config user.name "name"</li>
@@ -129,17 +150,21 @@
     <li><strong>install composer</strong><br>composer install</li>
     <li><strong>copy .env.example and rename it to .env</strong><br>cp .env.example .env</li>
     <li><strong>change database credentials in .env</strong></li>
+    <li><strong>change pusher credentials in .env</strong></li>
+    <li><strong>change BROADCAST_DRIVER=pusher in .env</strong></li>
     <li><strong>generate app key</strong><br>php artisan key:generate</li>
     <li><strong>install jwt</strong><br>composer require -w tymon/jwt-auth --ignore-platform-reqs</li>
-    <li><strong>copy jwt secret key and ably secret key from</strong></li>
+    <li><strong>copy and paste jwt secret key</strong></li>
     <li><strong>migrate tables</strong><br>php artisan migrate</li>
-    <li><strong>run the server</strong><br>php artisan serve</li>
+    <li><strong>run backend server</strong><br>php artisan serve</li>
 </ol>
 
 <h1>frontend</h1>
 <ol type="1">
     <li><strong>change directory</strong><br>cd frontend</li>
-    <li><strong>install react</strong><br>npm install</li>
-    <li><strong>copy .env.local.example and rename it to .env</strong><br>cp .env.local.example .env</li>
-    <li><strong>run the frontend</strong><br>npm start</li>
+    <li><strong>install node packages</strong><br>npm install</li>
+    <li><strong>copy .env.local.example and rename it to .env.local</strong>
+        <br>cp .env.local.example .env.local
+    </li>
+    <li><strong>run frontend server</strong><br>npm run start</li>
 </ol>

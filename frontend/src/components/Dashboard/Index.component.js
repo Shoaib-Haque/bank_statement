@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback  } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import Pusher from "pusher-js";
 
 import Layout from "../Layout/User/Layout.Component";
 import Loader from "../Loader/Loader.component";
@@ -37,6 +38,18 @@ export default function Index() {
 
   useEffect(() => {
     index();
+    var pusher = new Pusher(`${process.env.REACT_APP_PUSHER_API_KEY}`, {
+      cluster: `${process.env.REACT_APP_PUSHER_CLUSTER}`,
+    });
+
+    var channel = pusher.subscribe("chat-channel");
+    channel.bind("new-message", (data: any) => {
+      console.log(data);
+      // this.setState({
+      //   notification: true,
+      //   books: [...this.state.books, data.book],
+      // });
+    });
   }, []);
 
   const index = async () => {

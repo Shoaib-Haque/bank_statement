@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\Message;
 use Exception;
 use Illuminate\Validation\Rule;
-use App\Events\MessageEvent;
 
 class MessageController extends Controller
 {
@@ -70,8 +69,6 @@ class MessageController extends Controller
                 'created_at' => date('Y-m-d H:i:s'),
                 'update_at' => date('Y-m-d H:i:s')
             ]);
-
-            event(new MessageEvent($request->receiver_id, $request->message));
 
             return response()->json([
                 'message' => 'Sent!!'

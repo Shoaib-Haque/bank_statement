@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useCallback  } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import Echo from 'laravel-echo';
-import Pusher from 'pusher-js';
 
 import Layout from "../Layout/User/Layout.Component";
 import Loader from "../Loader/Loader.component";
@@ -39,25 +37,6 @@ export default function Index() {
 
   useEffect(() => {
     index();
-    axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL;
-    const echo = new Echo({
-      broadcaster: 'pusher',
-      key: process.env.REACT_APP_MIX_ABLY_PUBLIC_KEY,
-      wsHost: 'realtime-pusher.ably.io',
-      wsPort: 443,
-      disableStats: true,
-      encrypted: true,
-    });
-    echo
-      .channel('public.room')
-      .subscribed(() => {
-        console.log('You are subscribed');
-      })
-      .listen('.message.new', (data) => {
-      // setMessages((oldMessages) => [...oldMessages, data]);
-      // setMessage('');
-        console.log(data);
-      });
   }, []);
 
   const index = async () => {
@@ -235,7 +214,7 @@ export default function Index() {
                         <Row>
                           <Col>{chatBox.receiver_name}</Col>
                           <Col className="justify-content-right">
-                            <CloseButton 
+                            <CloseButton
                             onClick={(event) => {
                               //event.persist();
                               closeChatBox(index);
@@ -270,7 +249,7 @@ export default function Index() {
                               placeholder=""
                               name="message"
                               onChange={(event) => {
-                                
+
                               }}
                             />
                           </Form.Group>

@@ -1,6 +1,4 @@
 <?php
-
-use Ably\Models\Stats\MessageCount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 // Auth
@@ -18,7 +16,6 @@ use App\Http\Controllers\Account\Statement\StatementController;
 use App\Http\Controllers\User\User\UserController;
 // Messages
 use App\Http\Controllers\User\Message\MessageController;
-use App\Events\MessageEvent;
 
 /*
 |--------------------------------------------------------------------------

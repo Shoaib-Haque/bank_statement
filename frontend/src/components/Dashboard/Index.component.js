@@ -42,6 +42,17 @@ export default function Index() {
       cluster: `${process.env.REACT_APP_PUSHER_CLUSTER}`,
     });
 
+    // Public channel
+    // var channel = pusher.subscribe("chat-channel");
+    // channel.bind("new-message", (data: any) => {
+    //   console.log(data);
+    //   // this.setState({
+    //   //   notification: true,
+    //   //   books: [...this.state.books, data.book],
+    //   // });
+    // });
+
+    // Private Channel
     var channel = pusher.subscribe("chat-channel");
     channel.bind("new-message", (data: any) => {
       console.log(data);

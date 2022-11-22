@@ -37,6 +37,16 @@ class UserAuthController extends Controller
     }
 
     /**
+     * Get a JWT via given credentials.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function broadcasting()
+    {
+        //return response()->json(400);
+    }
+
+    /**
      * Log the User out (Invalidate the token).
      *
      * @return \Illuminate\Http\JsonResponse

@@ -98,6 +98,7 @@
     </ul>
     <li><strong>real-time-application-using-pusher</strong>
         <br><a href="https://hanieasemi.medium.com/realtime-application-with-laravel-and-react-js-88bf17be4838">RealTime Application with Laravel and React.js</a>
+        <br><a href="https://medium.com/@ekponoambrose/laravel-pusher-without-echojs-628bf192cac7">Laravel + Pusher without Echojs</a>
     </li>
     <li><strong>install the Pusher Channels PHP SDK</strong><br>composer require pusher/pusher-php-server</li>
     <li><strong>create app on the Pusher website</strong>

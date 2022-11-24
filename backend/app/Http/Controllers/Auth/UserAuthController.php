@@ -37,16 +37,6 @@ class UserAuthController extends Controller
     }
 
     /**
-     * Get a JWT via given credentials.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function broadcasting()
-    {
-        //return response()->json(400);
-    }
-
-    /**
      * Log the User out (Invalidate the token).
      *
      * @return \Illuminate\Http\JsonResponse
@@ -75,6 +65,7 @@ class UserAuthController extends Controller
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
             'user' => auth()->user(),
+            'user_id' => auth()->user()->id,
         ]);
     }
 }

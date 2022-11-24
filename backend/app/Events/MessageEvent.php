@@ -42,15 +42,8 @@ class MessageEvent implements ShouldBroadcast
     }
 
     // Public
-    // public function broadcastOn()
-    // {
-    //     return new Channel('chat-channel');
-    // }
-
-    // Private For Single
     public function broadcastOn()
     {
-        //return new PrivateChannel('chat_' . $this->receiver_id);
-        return new PrivateChannel('chat');
+        return new Channel('chat-channel.'. $this->receiver_id);
     }
 }

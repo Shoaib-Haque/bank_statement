@@ -24,10 +24,10 @@ export default function Index() {
   const navigate = useNavigate();
   const [TITLE, setTitle] = useState("");
   const token = localStorage.getItem("authToken");
+  const user_id = localStorage.getItem("user_id");
   const [loading, setLoading] = useState(false);
   const [chatBoxes, setChatBoxes] = useState([]);
 
-  const [user_id, setUserId] = useState("");
   const [list, setList] = useState([]);
   const columns = [
     {
@@ -40,42 +40,18 @@ export default function Index() {
   useEffect(() => {
     index();
     // Public channel
-    // var pusher = new Pusher(`${process.env.REACT_APP_PUSHER_API_KEY}`, {
-    //   cluster: `${process.env.REACT_APP_PUSHER_CLUSTER}`,
-    // });
-
-    // var channel = pusher.subscribe("chat-channel");
-    // channel.bind("new-message", (data: any) => {
-    //   console.log(data);
-    //   // this.setState({
-    //   //   notification: true,
-    //   //   books: [...this.state.books, data.book],
-    //   // });
-    // });
-
-    // Private Channel
     var pusher = new Pusher(`${process.env.REACT_APP_PUSHER_API_KEY}`, {
       cluster: `${process.env.REACT_APP_PUSHER_CLUSTER}`,
-      authEndpoint: `${process.env.REACT_APP_API_BASE_URL}user/broadcasting/auth`,
-      auth: {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
     });
 
-    try {
-      var channel = pusher.subscribe("private-chat");
-      channel.bind("new-message", (data: any) => {
-        console.log(data);
-        // this.setState({
-        //   notification: true,
-        //   books: [...this.state.books, data.book],
-        // });
-      });
-    }catch(e) {
-      console.log(e);
-    }
+    var channel = pusher.subscribe("chat-channel." + user_id);
+    channel.bind("new-message", (data: any) => {
+      console.log(data);
+      // this.setState({
+      //   notification: true,
+      //   books: [...this.state.books, data.book],
+      // });
+    });
   }, []);
 
   const index = async () => {
@@ -86,7 +62,6 @@ export default function Index() {
       })
       .then(({ data }) => {
         setList(data.users);
-        setUserId(data.user_id);
         setTitle("User List");
       })
       .catch(({ response }) => {
@@ -193,7 +168,7 @@ export default function Index() {
               <Row className="justify-content-center text-nowrap h-50">
                 <Col>
                   <Card>
-                    <Card.Header>Users {user_id}</Card.Header>
+                    <Card.Header>Users</Card.Header>
                     <Card.Body>
                       {list.length ? (
                         <ToolkitProvider

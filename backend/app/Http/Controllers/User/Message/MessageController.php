@@ -70,8 +70,7 @@ class MessageController extends Controller
                 'created_at' => date('Y-m-d H:i:s'),
                 'update_at' => date('Y-m-d H:i:s')
             ]);
-            //event(new MessageEvent(auth()->user()->id, $request->receiver_id, $request->message));
-            broadcast(new MessageEvent(auth()->user()->id, $request->receiver_id, $request->message))->toOthers();
+            event(new MessageEvent(auth()->user()->id, $request->receiver_id, $request->message));
 
             return response()->json([
                 'message' => 'Sent!!'

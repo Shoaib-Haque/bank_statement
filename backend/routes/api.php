@@ -93,7 +93,6 @@ Route::group(['middleware' => 'user'],
     Route::group(['prefix' => 'user'],
         function ($router) {
             Route::post('/login', [UserAuthController::class, 'login']);
-            Route::post('/broadcasting/auth', [UserAuthController::class, 'broadcasting']);
             Route::post('/logout', [UserAuthController::class, 'logout']);
         }
     ),

@@ -63,17 +63,17 @@ class MessageController extends Controller
         ]);
 
         try {
-            Message::create([
-                'sender_id' => auth()->user()->id,
-                'message' => $request->message,
-                'receiver_id' => $request->receiver_id,
-                'created_at' => date('Y-m-d H:i:s'),
-                'update_at' => date('Y-m-d H:i:s')
-            ]);
-            event(new MessageEvent(auth()->user()->id, $request->receiver_id, $request->message));
+            $message = Message::create([
+                        'sender_id' => auth()->user()->id,
+                        'message' => $request->message,
+                        'receiver_id' => $request->receiver_id,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'update_at' => date('Y-m-d H:i:s')
+                    ]);
+            event(new MessageEvent($message->id, $message->sender_id, $message->receiver_id, $message->message, $message->created_at, $message->update_at));
 
             return response()->json([
-                'message' => 'Sent!!'
+                'message' => $message
             ]);
         } catch (\Exception $e) {
             \Log::error($e->getMessage());

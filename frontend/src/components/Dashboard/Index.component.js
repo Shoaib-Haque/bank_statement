@@ -34,8 +34,7 @@ export default function Index() {
       dataField: "user_name",
     },
   ];
-  const { SearchBar, ClearSearchButton } = Search;
-  const { ExportCSVButton } = CSVExport;
+  const { SearchBar } = Search;
 
   useEffect(() => {
     index();
@@ -47,12 +46,17 @@ export default function Index() {
     var channel = pusher.subscribe("chat-channel." + user_id);
     channel.bind("new-message", (data: any) => {
       console.log(data);
-      // this.setState({
-      //   notification: true,
-      //   books: [...this.state.books, data.book],
-      // });
+      const newState = chatBoxes.map((chatBox, index) => {
+        chatBox.messages.unshift(data);
+        if (chatBox.receiver_id == data.sender_id) {
+          return { ...chatBox, messages: chatBox.messages };
+        }
+        return chatBox;
+      });
+      setChatBoxes(newState);
     });
-  }, []);
+  }, [chatBoxes]);
+
 
   const index = async () => {
     setLoading(true);
@@ -116,6 +120,14 @@ export default function Index() {
       })
       .then(({ data }) => {
         console.log(data);
+        const newState = chatBoxes.map((chatBox, index) => {
+          chatBox.messages.unshift(data.message);
+          if (chatBox.receiver_id == data.message.receiver_id) {
+            return { ...chatBox, messages: chatBox.messages };
+          }
+          return chatBox;
+        });
+        setChatBoxes(newState);
       })
       .catch(({ response }) => {
         console.log(response.data);

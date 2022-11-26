@@ -12,7 +12,6 @@ import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, {Search, CSVExport} from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
 
 import Card from "react-bootstrap/Card";
-import Dropdown from "react-bootstrap/Dropdown";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
@@ -27,37 +26,47 @@ export default function Index() {
   const user_id = localStorage.getItem("user_id");
   const [loading, setLoading] = useState(false);
   const [chatBoxes, setChatBoxes] = useState([]);
+  const [pusherChannel, setPusherChannel] = useState(null);
 
   const [list, setList] = useState([]);
   const columns = [
     {
+      text: "",
       dataField: "user_name",
+      headerAttrs: {
+        hidden: true,
+      },
     },
   ];
   const { SearchBar } = Search;
 
-  useEffect(() => {
+// TRIGGERED ON MOUNT
+useEffect(() => {
     index();
-    // Public channel
-    var pusher = new Pusher(`${process.env.REACT_APP_PUSHER_API_KEY}`, {
-      cluster: `${process.env.REACT_APP_PUSHER_CLUSTER}`,
+    const pusher = new Pusher(`${process.env.REACT_APP_PUSHER_API_KEY}`, {
+        cluster: `${process.env.REACT_APP_PUSHER_CLUSTER}`,
     });
-
-    var channel = pusher.subscribe("chat-channel." + user_id);
-    channel.bind("new-message", (data: any) => {
-      console.log(data);
-      const newState = chatBoxes.map((chatBox, index) => {
-        chatBox.messages.unshift(data);
-        if (chatBox.receiver_id == data.sender_id) {
-          return { ...chatBox, messages: chatBox.messages };
-        }
-        return chatBox;
-      });
-      setChatBoxes(newState);
-    });
-  }, [chatBoxes]);
-
-
+    const channel = pusher.subscribe("chat-channel." + user_id);
+    setPusherChannel(channel);
+  }, []);
+  
+// TRIGGERED ON CHANGE IN "data"
+useEffect(() => {
+    if(pusherChannel && pusherChannel.bind){
+        pusherChannel.unbind("new-message");
+        pusherChannel.bind("new-message", (pusherData) => {
+        const newState1 = chatBoxes.map((chatBox, index) => {
+            if (chatBox.receiver_id == pusherData.sender_id) {
+                chatBox.messages.unshift(pusherData);
+                return { ...chatBox, messages: chatBox.messages };
+            }
+            return chatBox;
+        });
+        setChatBoxes(newState1);
+        });
+    }
+}, [pusherChannel, chatBoxes]);
+  
   const index = async () => {
     setLoading(true);
     await axios
@@ -111,6 +120,7 @@ export default function Index() {
     const formData = new FormData();
     formData.append("receiver_id", e.target.receiver_id.value);
     formData.append("message", e.target.message.value);
+    e.target.message.value = "";
     const token = localStorage.getItem("authToken");
     var api =  `${process.env.REACT_APP_API_BASE_URL}messages`;
 
@@ -119,10 +129,9 @@ export default function Index() {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(({ data }) => {
-        console.log(data);
         const newState = chatBoxes.map((chatBox, index) => {
-          chatBox.messages.unshift(data.message);
           if (chatBox.receiver_id == data.message.receiver_id) {
+            chatBox.messages.unshift(data.message);
             return { ...chatBox, messages: chatBox.messages };
           }
           return chatBox;
@@ -210,6 +219,7 @@ export default function Index() {
                                       width="100vw;"
                                       hover
                                       condensed
+                                      bordered={false}
                                       wrapperClasses="table-responsive"
                                       rowEvents={rowEvents}
                                       {...props.baseProps}
@@ -255,7 +265,7 @@ export default function Index() {
                         chatBox.messages.length > 0 &&
                         chatBox.messages.map((message, messageIndex) => (
                           <ListGroup>
-                            <ListGroup.Item>{message.message}</ListGroup.Item>
+                            <ListGroup.Item key={messageIndex}>{message.message}</ListGroup.Item>
                           </ListGroup>
                       ))}
                       </Card.Body>

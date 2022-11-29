@@ -27,6 +27,7 @@ export default function Index() {
   const [loading, setLoading] = useState(false);
   const [chatBoxes, setChatBoxes] = useState([]);
   const [pusherChannel, setPusherChannel] = useState(null);
+  //const [chat_box_col_class_name, setChatBoxColClassName] = useState('');
 
   const [list, setList] = useState([]);
   const columns = [
@@ -49,24 +50,35 @@ useEffect(() => {
     const channel = pusher.subscribe("chat-channel." + user_id);
     setPusherChannel(channel);
   }, []);
-  
+
 // TRIGGERED ON CHANGE IN "data"
 useEffect(() => {
-    if(pusherChannel && pusherChannel.bind){
-        pusherChannel.unbind("new-message");
-        pusherChannel.bind("new-message", (pusherData) => {
-        const newState1 = chatBoxes.map((chatBox, index) => {
-            if (chatBox.receiver_id == pusherData.sender_id) {
-                chatBox.messages.unshift(pusherData);
-                return { ...chatBox, messages: chatBox.messages };
-            }
-            return chatBox;
-        });
-        setChatBoxes(newState1);
-        });
-    }
-}, [pusherChannel, chatBoxes]);
-  
+  if(pusherChannel && pusherChannel.bind){
+    var flag = false;
+    pusherChannel.unbind("new-message");
+    pusherChannel.bind("new-message", (pusherData) => {
+      const newState1 = chatBoxes.map((chatBox, index) => {
+          if (chatBox.receiver_id == pusherData.sender_id) {
+              flag = true;
+              console.log(flag);
+              chatBox.messages.unshift(pusherData);
+              return { ...chatBox, messages: chatBox.messages };
+          }
+          return chatBox;
+      });
+      setChatBoxes(newState1);
+      if(!flag) {
+        getChatMessages(pusherData.sender_id, function(response) {
+          var user = list.find((item) => item.id == pusherData.sender_id);
+          let obj = {'receiver_id' : pusherData.sender_id, 'receiver_name' : user.user_name, 'messages' : response};
+          const newChatBoxes = [...chatBoxes, obj];
+          setChatBoxes(newChatBoxes);
+      });
+      }
+    });
+  }
+}, [pusherChannel, chatBoxes, list]);
+
   const index = async () => {
     setLoading(true);
     await axios
@@ -184,12 +196,79 @@ useEffect(() => {
         <Loader />
       ) : (
         <Layout TITLE={TITLE}>
-          <Row>
-            <Col md={4} lg={6} xl={3}>
+          <Row className="px-1">
+            <Col xs={6} md={8} lg={8} xl={9}>
+              <Row className="d-flex justify-content-end text-nowrap chatbox-parent-row">
+                {chatBoxes &&
+                  chatBoxes.length > 0 &&
+                  chatBoxes.map((chatBox, index) => (
+                    <Col md={6} xl={4} className={`chatbox-child-col ${(index === chatBoxes.length-1 && window.innerWidth < 768) || (chatBoxes.length-(index+1) <= 1 && window.innerWidth >= 768 && window.innerWidth < 1200) || (chatBoxes.length-(index+1) <= 2) ? 'd-block' : 'd-none'}`}>
+                      <Card>
+                        <Card.Header>
+                          <Row>
+                            <Col>{chatBox.receiver_name}</Col>
+                            <Col className="justify-content-right">
+                              <CloseButton
+                                onClick={(event) => {
+                                  //event.persist();
+                                  closeChatBox(index);
+                                }}
+                              />
+                            </Col>
+                          </Row>
+                        </Card.Header>
+                        <Card.Body className="card-body-scroll">
+                          {chatBox.messages &&
+                            chatBox.messages.length > 0 &&
+                            chatBox.messages.map((message, messageIndex) => (
+                              <ListGroup>
+                                <ListGroup.Item key={messageIndex}>
+                                  {message.message}
+                                </ListGroup.Item>
+                              </ListGroup>
+                            ))}
+                        </Card.Body>
+                        <Card.Footer>
+                          <Form onSubmit={send}>
+                            <Form.Group
+                              className="mb-3"
+                              controlId="receiver_id"
+                            >
+                              <Form.Control
+                                type="hidden"
+                                value={chatBox.receiver_id}
+                                name="receiver_id"
+                              />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="message">
+                              <Form.Control
+                                as="textarea"
+                                required
+                                type="text"
+                                placeholder=""
+                                name="message"
+                                onChange={(event) => {}}
+                              />
+                            </Form.Group>
+                            <Button
+                              type="submit"
+                              variant="primary"
+                              size="sm"
+                              className="btn btn-block button"
+                            >
+                              Send
+                            </Button>
+                          </Form>
+                        </Card.Footer>
+                      </Card>
+                    </Col>
+                  ))}
+              </Row>
+            </Col>
+            <Col xs={6} md={4} lg={4} xl={3}>
               <Row className="justify-content-center text-nowrap h-50">
                 <Col>
                   <Card>
-                    <Card.Header>Users</Card.Header>
                     <Card.Body>
                       {list.length ? (
                         <ToolkitProvider
@@ -238,71 +317,6 @@ useEffect(() => {
                     </Card.Body>
                   </Card>
                 </Col>
-              </Row>
-            </Col>
-            <Col md={8} lg={6} xl={9}>
-              <Row className="justify-content-left text-nowrap">
-              {chatBoxes &&
-                chatBoxes.length > 0 &&
-                chatBoxes.map((chatBox, index) => (
-                  <Col sm={4}>
-                    <Card>
-                      <Card.Header>
-                        <Row>
-                          <Col>{chatBox.receiver_name}</Col>
-                          <Col className="justify-content-right">
-                            <CloseButton
-                            onClick={(event) => {
-                              //event.persist();
-                              closeChatBox(index);
-                            }}
-                            />
-                          </Col>
-                        </Row>
-                      </Card.Header>
-                      <Card.Body className="card-body-scroll">
-                      {chatBox.messages &&
-                        chatBox.messages.length > 0 &&
-                        chatBox.messages.map((message, messageIndex) => (
-                          <ListGroup>
-                            <ListGroup.Item key={messageIndex}>{message.message}</ListGroup.Item>
-                          </ListGroup>
-                      ))}
-                      </Card.Body>
-                      <Card.Footer>
-                        <Form onSubmit={send}>
-                        <Form.Group className="mb-3" controlId="receiver_id">
-                            <Form.Control
-                              type="hidden"
-                              value={chatBox.receiver_id}
-                              name="receiver_id"
-                            />
-                          </Form.Group>
-                          <Form.Group className="mb-3" controlId="message">
-                            <Form.Control
-                              as="textarea"
-                              required
-                              type="text"
-                              placeholder=""
-                              name="message"
-                              onChange={(event) => {
-
-                              }}
-                            />
-                          </Form.Group>
-                          <Button
-                            type="submit"
-                            variant="primary"
-                            size="sm"
-                            className="btn btn-block button"
-                          >
-                            Send
-                          </Button>
-                        </Form>
-                      </Card.Footer>
-                    </Card>
-                  </Col>
-              ))}
               </Row>
             </Col>
           </Row>

@@ -33,7 +33,12 @@ div.center {
 
 .card-body-scroll {
   max-height: 200px;
+  min-height: 200px;
   overflow-y: auto;
   display: flex;
   flex-direction: column-reverse;
+}
+
+.chatbox-parent-row {
+  flex-wrap: nowrap;
 }

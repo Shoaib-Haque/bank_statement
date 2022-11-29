@@ -18,6 +18,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import CloseButton from 'react-bootstrap/CloseButton';
 import ListGroup from 'react-bootstrap/ListGroup';
+import ROW from 'react-bootstrap/ROW';
+import COL from "react-bootstrap/COL";
 
 export default function Index() {
   const navigate = useNavigate();
@@ -202,36 +204,32 @@ useEffect(() => {
                 {chatBoxes &&
                   chatBoxes.length > 0 &&
                   chatBoxes.map((chatBox, index) => (
-                    <Col md={6} xl={4} className={`chatbox-child-col ${(index === chatBoxes.length-1 && window.innerWidth < 768) || (chatBoxes.length-(index+1) <= 1 && window.innerWidth >= 768 && window.innerWidth < 1200) || (chatBoxes.length-(index+1) <= 2) ? 'd-block' : 'd-none'}`}>
+                    <Col className={`chatbox_div ${(index === chatBoxes.length-1 && window.innerWidth < 950) || (chatBoxes.length-(index+1) <= 1 && window.innerWidth >= 950 && window.innerWidth < 1200) || (chatBoxes.length-(index+1) <= 2 && window.innerWidth > 1200)  ? 'd-block' : 'd-none'}`}>
                       <Card>
                         <Card.Header>
                           <Row>
                             <Col>{chatBox.receiver_name}</Col>
-                            <Col className="justify-content-right">
+                            <Col className="d-flex justify-content-end">
                               <CloseButton
                                 onClick={(event) => {
-                                  //event.persist();
                                   closeChatBox(index);
                                 }}
                               />
                             </Col>
                           </Row>
                         </Card.Header>
-                        <Card.Body className="card-body-scroll">
+                        <Card.Body className="card-body-scroll text-wrap">
                           {chatBox.messages &&
                             chatBox.messages.length > 0 &&
                             chatBox.messages.map((message, messageIndex) => (
-                              <ListGroup>
-                                <ListGroup.Item key={messageIndex}>
-                                  {message.message}
-                                </ListGroup.Item>
-                              </ListGroup>
+                              <ROW className={`d-flex mt-1 ${message.sender_id == user_id ? "justify-content-end ps-3" : "justify-content-start pe-3"}`}>
+                                <COL xs={10} className={`border border-1 rounded-3 px-1 content-width ${message.sender_id == user_id ? "justify-content-end bg-primary text-white" : "justify-content-start bg-secondary text-white"}`} key={messageIndex}>{message.message}</COL>
+                              </ROW>
                             ))}
                         </Card.Body>
-                        <Card.Footer>
+                        <Card.Footer className="p-1 pt-0">
                           <Form onSubmit={send}>
                             <Form.Group
-                              className="mb-3"
                               controlId="receiver_id"
                             >
                               <Form.Control
@@ -240,13 +238,14 @@ useEffect(() => {
                                 name="receiver_id"
                               />
                             </Form.Group>
-                            <Form.Group className="mb-3" controlId="message">
+                            <Form.Group className="mb-1" controlId="message">
                               <Form.Control
                                 as="textarea"
                                 required
                                 type="text"
-                                placeholder=""
+                                placeholder="Aa"
                                 name="message"
+                                className="message"
                                 onChange={(event) => {}}
                               />
                             </Form.Group>
@@ -265,7 +264,7 @@ useEffect(() => {
                   ))}
               </Row>
             </Col>
-            <Col xs={6} md={4} lg={4} xl={3}>
+            <Col xs={6} md={4} lg={4} xl={3} className="h-100">
               <Row className="justify-content-center text-nowrap h-50">
                 <Col>
                   <Card>

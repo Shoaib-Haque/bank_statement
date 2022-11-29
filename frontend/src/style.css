@@ -32,13 +32,21 @@ div.center {
 }
 
 .card-body-scroll {
-  max-height: 200px;
-  min-height: 200px;
+  max-height: 350px;
+  min-height: 350px;
   overflow-y: auto;
   display: flex;
   flex-direction: column-reverse;
 }
 
-.chatbox-parent-row {
-  flex-wrap: nowrap;
+textarea.message{
+  resize: none;
+}
+
+.content-width{
+  width: fit-content;
+}
+
+.chatbox_div{
+  max-width: 320px!important;
 }

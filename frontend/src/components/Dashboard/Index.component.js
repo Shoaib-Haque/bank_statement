@@ -73,7 +73,7 @@ useEffect(() => {
         getChatMessages(pusherData.sender_id, function(response) {
           var user = list.find((item) => item.id == pusherData.sender_id);
           let obj = {'receiver_id' : pusherData.sender_id, 'receiver_name' : user.user_name, 'messages' : response};
-          const newChatBoxes = [...chatBoxes, obj];
+          const newChatBoxes = [obj, ...chatBoxes];//[...chatBoxes, obj];
           setChatBoxes(newChatBoxes);
       });
       }

@@ -129,14 +129,12 @@ useEffect(() => {
       });
   };
 
-  const send = async (e) => {
-    e.preventDefault();
+  const send = async (receiver_id, message) => {
     const formData = new FormData();
-    formData.append("receiver_id", e.target.receiver_id.value);
-    formData.append("message", e.target.message.value);
-    e.target.message.value = "";
+    formData.append("receiver_id", receiver_id);
+    formData.append("message", message);
     const token = localStorage.getItem("authToken");
-    var api =  `${process.env.REACT_APP_API_BASE_URL}messages`;
+    var api = `${process.env.REACT_APP_API_BASE_URL}messages`;
 
     await axios
       .post(api, formData, {
@@ -164,6 +162,21 @@ useEffect(() => {
           });
         }
       });
+  };
+
+  const onSubmitClick = async (e) => {
+    e.preventDefault();
+    send(e.target.receiver_id.value, e.target.message.value);
+    e.target.message.value = "";
+  };
+
+  const onEnterPress = (e) => {
+    if (e.keyCode === 13 && e.shiftKey === false) {
+      e.preventDefault();
+      var form = e.target.form;
+      send(form.receiver_id.value, form.message.value);
+      form.message.value = "";
+    }
   };
 
   const rowEvents = {
@@ -204,7 +217,19 @@ useEffect(() => {
                 {chatBoxes &&
                   chatBoxes.length > 0 &&
                   chatBoxes.map((chatBox, index) => (
-                    <Col className={`chatbox_div ${(index === chatBoxes.length-1 && window.innerWidth < 950) || (chatBoxes.length-(index+1) <= 1 && window.innerWidth >= 950 && window.innerWidth < 1200) || (chatBoxes.length-(index+1) <= 2 && window.innerWidth > 1200)  ? 'd-block' : 'd-none'}`}>
+                    <Col
+                      className={`chatbox_div ${
+                        (index === chatBoxes.length - 1 &&
+                          window.innerWidth < 950) ||
+                        (chatBoxes.length - (index + 1) <= 1 &&
+                          window.innerWidth >= 950 &&
+                          window.innerWidth < 1200) ||
+                        (chatBoxes.length - (index + 1) <= 2 &&
+                          window.innerWidth > 1200)
+                          ? "d-block"
+                          : "d-none"
+                      }`}
+                    >
                       <Card>
                         <Card.Header>
                           <Row>
@@ -222,16 +247,30 @@ useEffect(() => {
                           {chatBox.messages &&
                             chatBox.messages.length > 0 &&
                             chatBox.messages.map((message, messageIndex) => (
-                              <ROW className={`d-flex mt-1 ${message.sender_id == user_id ? "justify-content-end ps-3" : "justify-content-start pe-3"}`}>
-                                <COL xs={10} className={`border border-1 rounded-3 px-1 content-width ${message.sender_id == user_id ? "justify-content-end bg-primary text-white" : "justify-content-start bg-secondary text-white"}`} key={messageIndex}>{message.message}</COL>
+                              <ROW
+                                className={`d-flex mt-1 ${
+                                  message.sender_id == user_id
+                                    ? "justify-content-end ps-3"
+                                    : "justify-content-start pe-3"
+                                }`}
+                              >
+                                <COL
+                                  xs={10}
+                                  className={`border border-1 rounded-3 px-1 content-width ${
+                                    message.sender_id == user_id
+                                      ? "justify-content-end bg-primary text-white"
+                                      : "justify-content-start bg-secondary text-white"
+                                  }`}
+                                  key={messageIndex}
+                                >
+                                  {message.message}
+                                </COL>
                               </ROW>
                             ))}
                         </Card.Body>
-                        <Card.Footer className="p-1 pt-0">
-                          <Form onSubmit={send}>
-                            <Form.Group
-                              controlId="receiver_id"
-                            >
+                        <Card.Footer className="p-1 border-top-0 bg-transparent">
+                          <Form onSubmit={onSubmitClick}>
+                            <Form.Group controlId="receiver_id">
                               <Form.Control
                                 type="hidden"
                                 value={chatBox.receiver_id}
@@ -246,7 +285,9 @@ useEffect(() => {
                                 placeholder="Aa"
                                 name="message"
                                 className="message"
-                                onChange={(event) => {}}
+                                onKeyDown={(event) => {
+                                  onEnterPress(event);
+                                }}
                               />
                             </Form.Group>
                             <Button

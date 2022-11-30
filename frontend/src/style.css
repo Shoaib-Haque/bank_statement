@@ -34,7 +34,7 @@ div.center {
 .card-body-scroll {
   max-height: 350px;
   min-height: 350px;
-  overflow-y: auto;
+  overflow-y: scroll;
   display: flex;
   flex-direction: column-reverse;
 }
@@ -49,4 +49,8 @@ textarea.message{
 
 .chatbox_div{
   max-width: 320px!important;
+}
+
+.form-control:focus {
+   box-shadow:none;
 }
